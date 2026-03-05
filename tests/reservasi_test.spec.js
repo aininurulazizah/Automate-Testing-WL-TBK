@@ -5,6 +5,7 @@ import { Aragon } from "../pages/aragon";
 import { Jackal } from "../pages/jackal";
 import { Btm } from "../pages/btm";
 import { testData } from "../test-data/reservasi_data";
+import { saveToCsv } from "../utils/helper";
 
 const sites = [
     {tag: '@daytrans', url: 'https://www.daytrans.co.id/', locator: Daytrans, data: testData.Daytrans, roundTrip: false, connectingRes: true},
@@ -17,6 +18,8 @@ const sites = [
 const data_Pemesan = testData.Pemesan;
 
 const data_Penumpang = testData.Penumpang;
+
+const fs = require('fs');
 
 for (const site of sites) {
 
@@ -69,7 +72,14 @@ for (const site of sites) {
 
         await page.waitForURL(/selesai/);
 
-        // await page.pause();
+        const booking_code = await web.kode_booking_label;
+
+        // fs.appendFileSync('output/booking_code.csv', `${booking_code}\n`);
+
+        saveToCsv(site.tag, booking_code);
+
+        await page.pause();
+
         
     })
 
