@@ -31,6 +31,9 @@ export class Btm{
         this.konfirmasi_pembayaran_btn = page.locator('button:has-text("Konfirmasi ")').first();
         this.konfirmasi_pembayaran_btn_modal = page.locator('button:has-text("Konfirmasi ")').nth(1);
 
+        // Booked Page
+        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + h3').innerText();
+
         // Login
         this.login_btn = page.locator('a:has-text("Daftar/Masuk")');
         this.login_phone_btn = page.locator('button:has-text("Login dengan Nomor Telepon")');
@@ -227,7 +230,7 @@ export class Btm{
         const hari = date.getDate();
         const tahun = date.getFullYear();
         const tanggal_target_id = `${bulan} ${hari}, ${tahun}`;
-        console.log(`hari, tanggal, bulan : ${bulan} ${hari}, ${tahun}`);
+        // console.log(`hari, tanggal, bulan : ${bulan} ${hari}, ${tahun}`);
 
         const tanggal_target = this.page.locator(`span[aria-label="${tanggal_target_id}"]`);
         await tgl_elm.click();

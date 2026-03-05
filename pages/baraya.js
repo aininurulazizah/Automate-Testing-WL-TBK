@@ -41,6 +41,9 @@ export class Baraya {
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-body button:has-text("Konfirmasi")');
 
+        //Booked Page
+        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + h3').innerText();
+
         // Login
         this.login_btn = page.locator('a:has-text("Masuk")');
         this.login_phone_btn = page.locator('button:has-text("Nomor Telepon")');
@@ -89,7 +92,7 @@ export class Baraya {
     }
 
     async isiTanggalPergi(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).first();
         await this.tanggal_pergi.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn.click();
@@ -102,7 +105,7 @@ export class Baraya {
     }
 
     async isiTanggalPulang(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).nth(1);
         await this.tanggal_pulang.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn2.click();

@@ -1,3 +1,14 @@
-No,Tanggal,Mitra,Kode Booking
-1,4/3/2026,daytrans,BDTR26030462LF
-2,"4/3/2026",daytrans,BDTR2603047YG5
+No,Tanggal,Mitra,Tipe Reservasi,Kode Booking
+1,4/3/2026,daytrans,,BDTR26030462LF
+2,4/3/2026,daytrans,,BDTR2603047YG5
+3,5/3/2026,baraya,,"locator('p:has-text(""Kode Booking"") + h3')"
+4,5/3/2026,baraya,,"locator('p:has-text(""Kode Booking"") + h3')"
+5,5/3/2026,jackal,,BJKL2603050Q9Y
+6,5/3/2026,baraya,,BBRT260305VDWZ
+7,5/3/2026,aragon,,BARG260305V173
+8,5/3/2026,btm,,BBTM260305E34Z
+9,5/3/2026,daytrans,One Way Trip,BDTR260305O0EB
+10,5/3/2026,daytrans,Connecting Reservation,BDTR260305I4GH
+11,"5/3/2026",baraya,Round Trip,BBRT260305K2X5
+12,"5/3/2026",jackal,Round Trip,BJKL260305XMT5
+13,"5/3/2026",daytrans,Connecting Reservation,BDTR260305CDST

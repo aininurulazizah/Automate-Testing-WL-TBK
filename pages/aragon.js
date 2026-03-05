@@ -33,6 +33,9 @@ export class Aragon {
         this.check_ketentuan_btn = page.locator('label[for="tandaicheck"]');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi")');
 
+        // Booked Page
+        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p').innerText();
+
         // Login
         this.login_btn = page.locator('a:has-text("Login & Sign Up")');
         this.login_phone_btn = page.locator('button:has-text("Dengan Nomor Telepon")').first();

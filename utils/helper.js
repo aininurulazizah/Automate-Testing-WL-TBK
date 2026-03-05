@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-export function saveToCsv(siteTag, bookingCode) {
+export function saveToCsv(siteTag, bookingCode, resvType) {
 
     const file = 'output/booking_code.csv';
     const mitra = siteTag.replace('@', '');
@@ -17,10 +17,10 @@ export function saveToCsv(siteTag, bookingCode) {
         no = lines.length; // karena baris pertama header
     } 
     else {
-        fs.writeFileSync(file, 'No,Tanggal Pesan,Mitra,Kode Booking\n');
+        fs.writeFileSync(file, 'No,Tanggal Pesan,Mitra,Tipe Reservasi,Kode Booking\n');
     }
 
-    const row = `${no},"${tanggal}",${mitra},${bookingCode}\n`;
+    const row = `${no},"${tanggal}",${mitra},${resvType},${bookingCode}\n`;
 
     fs.appendFileSync(file, row);
 

@@ -74,11 +74,9 @@ for (const site of sites) {
 
         const booking_code = await web.kode_booking_label;
 
-        // fs.appendFileSync('output/booking_code.csv', `${booking_code}\n`);
+        saveToCsv(site.tag, booking_code, 'One Way Trip');
 
-        saveToCsv(site.tag, booking_code);
-
-        await page.pause();
+        // await page.pause();
 
         
     })
@@ -132,6 +130,10 @@ for (const site of sites) {
             await web.konfirmasiPembayaran();
 
             await page.waitForURL(/selesai/);
+
+            const booking_code = await web.kode_booking_label;
+
+            saveToCsv(site.tag, booking_code, 'Round Trip');
 
             // await page.pause();
     
@@ -194,6 +196,10 @@ for (const site of sites) {
             await web.konfirmasiPembayaran();
 
             await page.waitForURL(/selesai/);
+
+            const booking_code = await web.kode_booking_label;
+
+            saveToCsv(site.tag, booking_code, 'Connecting Reservation');
 
             // await page.pause();
     
