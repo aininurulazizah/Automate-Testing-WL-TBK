@@ -4,6 +4,7 @@ import { Baraya } from "../pages/baraya";
 import { Aragon } from "../pages/aragon";
 import { Jackal } from "../pages/jackal";
 import { Btm } from "../pages/btm";
+import { Semeru } from "../pages/semeru"
 import { testData } from "../test-data/reservasi_data";
 import { saveToCsv } from "../utils/helper";
 
@@ -12,7 +13,8 @@ const sites = [
     {tag: '@baraya', url: 'https://www.baraya-travel.com/', locator: Baraya, data: testData.Baraya, roundTrip: true, connectingRes: false},
     {tag: '@aragon', url: 'https://www.aragontrans.com/', locator: Aragon, data: testData.Aragon, roundTrip: false, connectingRes: false},
     {tag: '@jackal', url: 'https://www.jackalholidays.com/', locator: Jackal, data: testData.Jackal, roundTrip: true, connectingRes: false},
-    {tag: '@btm', url: 'https://www.btmshuttle.id/', locator: Btm, data: testData.Btm, roundTrip: false, connectingRes: true}
+    {tag: '@btm', url: 'https://www.btmshuttle.id/', locator: Btm, data: testData.Btm, roundTrip: false, connectingRes: true},
+    {tag: '@semeru', url: 'https://www.semerutrans.com/', locator: Semeru, data: testData.Semeru, roundTrip: false, connectingRes: false}
 ]
 
 const data_Pemesan = testData.Pemesan;
@@ -71,6 +73,8 @@ for (const site of sites) {
         await web.konfirmasiPembayaran();
 
         await page.waitForURL(/selesai/);
+
+        await page.pause();
 
         const booking_code = await web.kode_booking_label;
 

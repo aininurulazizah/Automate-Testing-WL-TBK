@@ -72,6 +72,15 @@ export const testData = {
         }
     },
 
+    Semeru: {
+        Keberangkatan: "BEKASI",
+        Tujuan: "AGEN CIKOPO",
+        TanggalPergi: tanggalPergi,
+        JumlahPenumpang: 3,
+        MetodeBayar: "Pembayaran Instan",
+        PlatformBayar: "QRIS"
+    },
+
     Pemesan: {
         NamaPemesan: "Pemesan",
         Email: "pemesan@harakirimail.com",
@@ -82,19 +91,24 @@ export const testData = {
     Penumpang: {
         PenumpangDewasa: {
             Penumpang_1: {
-                NamaPenumpang: "Penumpang Satu"
+                NamaPenumpang: "Penumpang Satu",
+                JenisKelamin: "Laki-laki"
             },
             Penumpang_2: {
-                NamaPenumpang: "Penumpang Dua"
+                NamaPenumpang: "Penumpang Dua",
+                JenisKelamin: "Perempuan"
             },
             Penumpang_3: {
-                NamaPenumpang: "Penumpang Tiga"
+                NamaPenumpang: "Penumpang Tiga",
+                JenisKelamin: "Perempuan"
             },
             Penumpang_4: {
-                NamaPenumpang: "Penumpang Empat"
+                NamaPenumpang: "Penumpang Empat",
+                JenisKelamin: "Laki-laki"
             },
             Penumpang_5: {
-                NamaPenumpang: "Penumpang Lima"
+                NamaPenumpang: "Penumpang Lima",
+                JenisKelamin: "Laki-laki"
             }
         },
         PenumpangBayi: {
