@@ -74,8 +74,6 @@ for (const site of sites) {
 
         await page.waitForURL(/selesai/);
 
-        await page.pause();
-
         const booking_code = await web.kode_booking_label;
 
         saveToCsv(site.tag, booking_code, 'One Way Trip');
