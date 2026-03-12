@@ -13,7 +13,7 @@ const sites = [
     {tag: '@baraya', url: 'https://www.baraya-travel.com/', locator: Baraya, data: testData.Baraya, roundTrip: true, connectingRes: false},
     {tag: '@aragon', url: 'https://www.aragontrans.com/', locator: Aragon, data: testData.Aragon, roundTrip: false, connectingRes: false},
     {tag: '@jackal', url: 'https://www.jackalholidays.com/', locator: Jackal, data: testData.Jackal, roundTrip: true, connectingRes: false},
-    {tag: '@btm', url: 'https://www.btmshuttle.id/', locator: Btm, data: testData.Btm, roundTrip: false, connectingRes: true},
+    {tag: '@btm', url: 'https://www.btmshuttle.id/', locator: Btm, data: testData.Btm, roundTrip: false, connectingRes: false},
     {tag: '@semeru', url: 'https://www.semerutrans.com/', locator: Semeru, data: testData.Semeru, roundTrip: false, connectingRes: false}
 ]
 
@@ -74,7 +74,13 @@ for (const site of sites) {
 
         await page.waitForURL(/selesai/);
 
-        const booking_code = await web.kode_booking_label;
+        //Expected Result
+        await expect(page).toHaveURL(/selesai/);
+        await expect(web.pesanan_dibuat_label).toBeVisible();
+        await expect(web.kode_booking_label).toBeVisible();
+        await expect(web.kode_pembayaran_label).toBeVisible();
+
+        const booking_code = await web.kode_booking_label.innerText();
 
         saveToCsv(site.tag, booking_code, 'One Way Trip');
 
@@ -133,7 +139,13 @@ for (const site of sites) {
 
             await page.waitForURL(/selesai/);
 
-            const booking_code = await web.kode_booking_label;
+            //Expected Result
+            await expect(page).toHaveURL(/selesai/);
+            await expect(web.pesanan_dibuat_label).toBeVisible();
+            await expect(web.kode_booking_label).toBeVisible();
+            await expect(web.kode_pembayaran_label).toBeVisible();
+
+            const booking_code = await web.kode_booking_label.innerText();
 
             saveToCsv(site.tag, booking_code, 'Round Trip');
 
@@ -199,7 +211,13 @@ for (const site of sites) {
 
             await page.waitForURL(/selesai/);
 
-            const booking_code = await web.kode_booking_label;
+            //Expected Result
+            await expect(page).toHaveURL(/selesai/);
+            await expect(web.pesanan_dibuat_label).toBeVisible();
+            await expect(web.kode_booking_label).toBeVisible();
+            await expect(web.kode_pembayaran_label).toBeVisible();            
+
+            const booking_code = await web.kode_booking_label.innerText();
 
             saveToCsv(site.tag, booking_code, 'Connecting Reservation');
 

@@ -36,7 +36,9 @@ export class Jackal{
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-footer button:has-text("Ya, Lanjutkan")');
 
         // Booked Page
-        this.kode_booking_label = page.locator('p:has-text("kode booking") + h4').innerText();
+        this.pesanan_dibuat_label = page.locator('h5:has-text("Transaksi Berhasil !")');
+        this.kode_booking_label = page.locator('p:has-text("kode booking") + h4');
+        this.kode_pembayaran_label = page.locator('p:has-text("kode bayar") + h4');
 
         // Login
         this.login_btn = page.locator('a:has-text("Login")').first();
@@ -80,7 +82,7 @@ export class Jackal{
     }
 
     async isiTanggalPergi(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).first();
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
         await this.tanggal_pergi.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn.click();
@@ -93,7 +95,7 @@ export class Jackal{
     }
 
     async isiTanggalPulang(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).nth(1);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
         await this.tanggal_pulang.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn2.click();

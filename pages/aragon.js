@@ -34,7 +34,9 @@ export class Aragon {
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi")');
 
         // Booked Page
-        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p').innerText();
+        this.pesanan_dibuat_label = page.locator('p:has-text("Pesanan Dibuat !")')
+        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p');
+        this.kode_pembayaran_label = page.locator('p:has-text("Kode Pembayaran") + div > div > div').first();
 
         // Login
         this.login_btn = page.locator('a:has-text("Login & Sign Up")');

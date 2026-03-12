@@ -1,6 +1,6 @@
-const tanggalPergi = getTanggal(2);
+const tanggalPergi = getTanggal(1);
 
-const tanggalPulang = getTanggal(3);
+const tanggalPulang = getTanggal(2);
 
 function getTanggal(bulan) {
     const today = new Date();
@@ -76,7 +76,7 @@ export const testData = {
         Keberangkatan: "BEKASI",
         Tujuan: "AGEN CIKOPO",
         TanggalPergi: tanggalPergi,
-        JumlahPenumpang: 3,
+        JumlahPenumpang: 2,
         MetodeBayar: "Pembayaran Instan",
         PlatformBayar: "QRIS"
     },

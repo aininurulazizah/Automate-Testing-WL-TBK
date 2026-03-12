@@ -36,7 +36,9 @@ export class Daytrans{
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-body button:has-text("Konfirmasi")');
 
         // Booked Pgae
-        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p').innerText();
+        this.pesanan_dibuat_label = page.locator('p:has-text("Pesanan Dibuat !")');
+        this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p');
+        this.kode_pembayaran_label = page.locator('p:has-text("Kode Pembayaran") + div > div > div').first();
 
         // Login
         this.login_btn = page.locator('a:has-text("Masuk")');
