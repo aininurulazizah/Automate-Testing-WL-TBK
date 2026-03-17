@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class Daytrans{
     constructor(page) {
 
@@ -13,9 +15,9 @@ export class Daytrans{
         this.tanggal_pergi = page.locator('#tgl_berangkat');
         this.next_month_btn = page.locator('.flatpickr-next-month');
         this.jumlah_penumpang = page.locator('.ss-main .ss-single-selected'); // tidak pakai id karena display none
-        this.cari_btn = page.locator('.btn-search');
-        this.carijadwal_btn_first = page.locator('.btn-list-jadwal').first();
-        this.pilihjadwal_btn_first = page.locator('button:has-text("Beli")').first();
+        this.cari_tiket_btn = page.locator('.btn-search');
+        this.jadwal_btn = page.locator('.btn-list-jadwal');
+        this.jam_card = page.locator('div#jadwal-list-0 > li');
 
         // User Data
         this.nama_pemesan = page.locator('#pemesan');
@@ -34,11 +36,14 @@ export class Daytrans{
         this.check_ketentuan_btn = page.locator('label[for="tandaicheck"]');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-body button:has-text("Konfirmasi")');
+        this.detail_harga_card = page.locator('p:has-text("Detail Harga") + div > div > div > div > div');
+        this.total_on_detail_keberangkatan_card = page.locator('span#hargatot');
 
         // Booked Pgae
         this.pesanan_dibuat_label = page.locator('p:has-text("Pesanan Dibuat !")');
         this.kode_booking_label = page.locator('p:has-text("Kode Booking") + div > p');
         this.kode_pembayaran_label = page.locator('p:has-text("Kode Pembayaran") + div > div > div').first();
+        this.detail_pembayaran_card = page.locator('p:has-text("Detail Pembayaran") + div > div');
 
         // Login
         this.login_btn = page.locator('a:has-text("Masuk")');
@@ -61,6 +66,10 @@ export class Daytrans{
         return this.page.locator(`[data-passenger-index="${i}"]`).nth(n);
     }
 
+    getKursi(i) {
+        return this.page.locator('div.seat-blank').nth(i);
+    }
+
     getJumlahPindahArmada() {
         return this.page.locator(`[data-passenger-index="1"]`).count();
     }
@@ -75,6 +84,24 @@ export class Daytrans{
 
     getPlatformBayar(platform) { // Untuk mendapatkan platform pembayaran setelah pilih metode bayar
         return this.page.locator(`img[alt=${platform}]`);
+    }
+
+    normalizeRupiah(value) {
+        if (!value) return 0;
+
+        return Number(
+            value
+                .toString()
+                .replace(/[^0-9]/g, "") // hapus semua selain angka
+        );
+    }
+
+    parseText(text) {
+        return text
+            .toLowerCase()
+            .replace(/[\s\-().]+/g, '_')
+            .replace(/^_+|_+$/g, '')
+            .trim()
     }
 
     async closePopup(value) {
@@ -113,12 +140,15 @@ export class Daytrans{
     }
 
     async cariTiket() {
-        await this.cari_btn.click();
+        await this.cari_tiket_btn.click();
     }
 
     async pilihJadwal(){
-        await this.carijadwal_btn_first.click();
-        await this.pilihjadwal_btn_first.click();
+        await this.jadwal_btn.first().click(); //Pilih jadwal
+        const jam_card = this.jam_card.first(); //Ambil card pertama dari list jam berangkat
+        const harga_tiket = this.jam_card.first().locator('h4.harga').nth(1).innerText(); //Ambil harga tiketnya
+        await jam_card.locator('button:has-text("Beli")').click(); //Pilih jam
+        return harga_tiket; //Kembalikan harga tiket di jam terpilih untuk kebutuhan validasi harga tiket
     }
 
     async isiDataPenumpang(jml_penumpang, pemesan, penumpang) {
@@ -139,7 +169,7 @@ export class Daytrans{
     async pilihKursi(jml_penumpang) { // n = 0 (tidak ada perpindahan armada)
         for(let i = 0; i < jml_penumpang; i++){
             await this.getPenumpangTerdaftar(i+1, 0).click();
-            await this.kursi_tersedia.nth(i).click();
+            await this.getKursi(i).click();
         }
     }
 
@@ -151,6 +181,113 @@ export class Daytrans{
         const kursiSaatIni = await this.kursi_tersedia.count(); // Hitung banyak kursi saat ini untuk membantu pemilihan kursi di armada selanjutnya
         this.total_kursi_perarmada = kursiSaatIni;
     }
+
+    async validasiHargaTiketKursi(harga_tiket, jml_penumpang) {
+        const harga_type = harga_tiket.includes(" - ") ? "range" : "fixed";
+        let harga_min;
+        let harga_max;
+        let harga_kursi;
+
+        if (harga_type === "range") {
+            [harga_min, harga_max] = (harga_tiket.split(" - "));
+            harga_min = this.normalizeRupiah(harga_min);
+            harga_max = this.normalizeRupiah(harga_max);
+
+            for (let i = 0; i < jml_penumpang; i++) {
+                const kursi = await this.getKursi(i).locator('span');
+                
+                if (await kursi.first().innerText() === "Promo") {
+                    harga_kursi = this.normalizeRupiah(await kursi.nth(1).innerText());
+                } else {
+                    harga_kursi = this.normalizeRupiah(await kursi.first().innerText());
+                }
+                
+                expect(harga_kursi).toBeGreaterThanOrEqual(harga_min);
+                expect(harga_kursi).toBeLessThanOrEqual(harga_max);
+            }
+            
+        }
+        
+        if (harga_type === "fixed") {
+            for (let i = 0; i < jml_penumpang; i++) {
+                const harga_kursi = this.this.normalizeRupiah(await this.getKursi(i).locator('span').innerText());
+                expect(harga_kursi).toBe(harga_tiket);
+            }
+        }
+        
+        return true;
+
+    }
+
+    async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya) {
+
+        switch(current_page) {
+            case("seat-page") :
+
+                let current_harga_tiket;
+
+                if (await this.validasiHargaTiketKursi(harga_tiket, jml_penumpang)) {
+                    for (let i = 0; i < jml_penumpang; i++) {
+                        const kursi = await this.getKursi(i).locator('span');
+
+                        if (await kursi.first().innerText() === "Promo") {
+                            // const harga_kursi = this.normalizeRupiah(await this.getKursi(i).locator('span').innerText());
+                            current_harga_tiket = this.normalizeRupiah(await kursi.nth(1).innerText());
+                            expected_total_tiket += current_harga_tiket;
+                        } else {
+                            current_harga_tiket = this.normalizeRupiah(await kursi.first().innerText());
+                            expected_total_tiket += current_harga_tiket;
+                        }
+                    }
+                }   
+
+                const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.page.locator('div#connecting1 p').nth(1).innerText());
+                const actual_total_tiket_seat_2 = this.normalizeRupiah(await this.page.locator('span#hargatot').innerText());
+
+                expect(actual_total_tiket_seat_1).toBe(expected_total_tiket);
+                expect(actual_total_tiket_seat_2).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+
+                break;
+
+            case("payment-page") :
+                const detail_harga_card_count = await this.detail_harga_card.count();
+                let expected_total_tiket_payment = this.normalizeRupiah(await this.detail_harga_card.first().locator('p').nth(1).innerText());
+
+                for (let i = 0; i < detail_harga_card_count; i++) {
+                    const detail = this.parseText(await this.detail_harga_card.nth(i).locator('p').first().innerText());
+                    const nominal = this.normalizeRupiah(await this.detail_harga_card.nth(i).locator('p').nth(1).innerText());
+
+                    if (biaya_lainnya.Potongan.includes(detail)) {
+                        expected_total_tiket_payment -= nominal;
+                    }
+
+                    if (biaya_lainnya.Tambahan.includes(detail)) {
+                        expected_total_tiket_payment += nominal;
+                    }
+                }
+
+                // Ambil actual total di Card Detail Harga dan Card Detail Keberangkatan
+                const actual_total_tiket_payment_1 = this.normalizeRupiah(await this.detail_harga_card.last().locator('p').nth(1).innerText());
+                const actual_total_tiket_payment_2 = this.normalizeRupiah(await this.total_on_detail_keberangkatan_card.innerText());
+                
+                expect(actual_total_tiket_payment_1).toBe(expected_total_tiket_payment);
+                expect(actual_total_tiket_payment_2).toBe(expected_total_tiket_payment);
+
+                return expected_total_tiket_payment;
+
+                break;
+
+            case("success-page") :
+                const actual_total_tiket_success = this.normalizeRupiah(await this.detail_pembayaran_card.last().locator('div').nth(1).innerText());
+                expect(actual_total_tiket_success).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+                break;
+        }
+    }
+
 
     async klikBayar() {
         await this.pembayaran_btn.click();

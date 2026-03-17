@@ -24,6 +24,17 @@ export const testData = {
         ConnectingReservation: {
             Keberangkatan: "Alfamart Prambanan",
             Tujuan: "Dipatiukur"
+        },
+        BiayaLainnya: {
+            Potongan: [
+                'potongan'
+            ],
+            Tambahan: [
+                'biaya_admin',
+                'biaya_asuransi',
+                'biaya_cancellation',
+                'biaya_missconnecting'
+            ]  
         }
     },
 
