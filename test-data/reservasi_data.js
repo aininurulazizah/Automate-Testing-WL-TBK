@@ -48,7 +48,10 @@ export const testData = {
             Bayi: 0
         },
         MetodeBayar: "Pembayaran Instan",
-        PlatformBayar: "QRIS"
+        PlatformBayar: "QRIS",
+        BiayaLainnya: {
+
+        }
     },
 
     Aragon: {

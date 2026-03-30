@@ -182,7 +182,7 @@ export class Daytrans{
         this.total_kursi_perarmada = kursiSaatIni;
     }
 
-    async validasiHargaTiketKursi(harga_tiket, jml_penumpang) {
+    async validasiHargaTiketKursi(harga_tiket, jml_penumpang) { //Validasi harga tiket yang terpampang di kursi
         const harga_type = harga_tiket.includes(" - ") ? "range" : "fixed";
         let harga_min;
         let harga_max;
@@ -210,8 +210,8 @@ export class Daytrans{
         
         if (harga_type === "fixed") {
             for (let i = 0; i < jml_penumpang; i++) {
-                const harga_kursi = this.this.normalizeRupiah(await this.getKursi(i).locator('span').innerText());
-                expect(harga_kursi).toBe(harga_tiket);
+                const harga_kursi = this.normalizeRupiah(await this.getKursi(i).locator('span').innerText());
+                expect(harga_kursi).toBe(this.normalizeRupiah(harga_tiket));
             }
         }
         
@@ -219,7 +219,7 @@ export class Daytrans{
 
     }
 
-    async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya) {
+    async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya) { // Validasi total harga tiket yang dipilih
 
         switch(current_page) {
             case("seat-page") :
@@ -231,7 +231,6 @@ export class Daytrans{
                         const kursi = await this.getKursi(i).locator('span');
 
                         if (await kursi.first().innerText() === "Promo") {
-                            // const harga_kursi = this.normalizeRupiah(await this.getKursi(i).locator('span').innerText());
                             current_harga_tiket = this.normalizeRupiah(await kursi.nth(1).innerText());
                             expected_total_tiket += current_harga_tiket;
                         } else {
