@@ -21,8 +21,6 @@ const data_Pemesan = testData.Pemesan;
 
 const data_Penumpang = testData.Penumpang;
 
-const fs = require('fs');
-
 for (const site of sites) {
 
     test.setTimeout(60000);
@@ -64,8 +62,10 @@ for (const site of sites) {
         } 
         
         if(path === "/book/pilihkursi") {
-            await web.pilihKursi(jml_penumpang);
+            await web.pilihKursi(jml_penumpang, harga_tiket);
+            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "seat-page", site.data.BiayaLainnya);
             await web.isiDataPenumpang(jml_penumpang, data_Pemesan, data_Penumpang);
+            await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "data-page", site.data.BiayaLainnya);
         }
 
         await web.klikBayar();
