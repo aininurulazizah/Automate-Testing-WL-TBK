@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class Semeru {
 
     constructor(page) {
@@ -12,7 +14,7 @@ export class Semeru {
         this.next_month_btn = page.locator('span.flatpickr-next-month');
         this.jumlah_penumpang = page.locator('select#jmlpenumpang + div');
         this.cari_tiket_btn = page.locator('button:has-text("Cari")');
-        this.pilihjadwal_btn = page.locator('button:has-text("Pilih")');
+        this.jadwal_card = page.locator('div#users ul > li');
 
         // User Data
         this.nama_pemesan = page.locator('input#pemesan');
@@ -22,9 +24,11 @@ export class Semeru {
 
         // Seat Page
         this.kursi_tersedia = page.locator('div.seat-blank');
+        this.total_bayar_label_general = page.locator('span#hargatot');
         this.pembayaran_btn = page.locator('button[onclick="kirimdata()"]:has-text("Selanjutnya")');
 
         // Payment Confirmation Page
+        this.detail_bayar_card = page.locator('div#container-price');
         this.check_ketentuan_btn = page.locator('label[for="tandaicheck"]');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit[onclick="return check()"]');
 
@@ -32,6 +36,7 @@ export class Semeru {
         this.pesanan_dibuat_label = page.locator('p:has-text("Transaksi Sukses !")');
         this.kode_booking_label = page.locator('p:has-text("Kode Booking") + h4');
         this.kode_pembayaran_label = page.locator('p:has-text("Kode Pembayaran") + h4');
+        this.total_bayar_label_success_page = page.locator('p:has-text("Total Bayar") + h4');
 
     }
 
@@ -45,6 +50,16 @@ export class Semeru {
 
     getPlatformBayar(platform) {
         return this.page.locator(`img[alt=${platform}]`);
+    }
+
+    normalizeRupiah(value) {
+        if (!value) return 0;
+
+        return Number(
+            value
+                .toString()
+                .replace(/[^0-9]/g, "") // hapus semua selain angka
+        );
     }
 
     async isiKeberangkatan(value) {
@@ -80,7 +95,10 @@ export class Semeru {
     }
 
     async pilihJadwal() {
-        await this.pilihjadwal_btn.first().click();
+        const harga_tiket =  await this.jadwal_card.first().locator('p.harga').innerText();
+        const jadwal_button = await this.jadwal_card.first().locator('button:has-text("Pilih")');
+        await jadwal_button.click();
+        return harga_tiket
     }
 
     async isiDataPenumpang(jml_penumpang, pemesan, penumpang) {
@@ -101,6 +119,81 @@ export class Semeru {
     async pilihKursi(jml_penumpang) {
         for(let i = 0; i < jml_penumpang; i++) {
             await this.kursi_tersedia.nth(i).click();
+        }
+    }
+
+    async validasiHargaTiketKursi(harga_tiket, jml_penumpang) { //Validasi harga tiket yang terpampang di kursi
+        const harga_type = harga_tiket.includes(" - ") ? "range" : "fixed";
+        let harga_min;
+        let harga_max;
+
+        if (harga_type === "range") {
+            [harga_min, harga_max] = (harga_tiket.split(" - "));
+            harga_min = this.normalizeRupiah(harga_min);
+            harga_max = this.normalizeRupiah(harga_max);
+
+            for (let i = 0; i < jml_penumpang; i++) {
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').innerText());
+                expect(harga_kursi).toBeGreaterThanOrEqual(harga_min);
+                expect(harga_kursi).toBeLessThanOrEqual(harga_max);
+            }
+            
+        }
+        
+        if (harga_type === "fixed") {
+            for (let i = 0; i < jml_penumpang; i++) {
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').innerText());
+                expect(harga_kursi).toBe(this.normalizeRupiah(harga_tiket));
+            }
+        }
+        
+        return true;
+
+    }
+
+    async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya) {
+
+        switch(current_page) {
+            case("seat-page") :
+
+                if (await this.validasiHargaTiketKursi(harga_tiket, jml_penumpang)) {
+                    for (let i = 0; i < jml_penumpang; i++) {
+                        const current_harga_tiket = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').innerText());
+                        expected_total_tiket += current_harga_tiket;
+                    }
+                }   
+
+                const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.page.locator('span.display-price-seat-selected').innerText());
+                const actual_total_tiket_seat_2 = this.normalizeRupiah(await this.total_bayar_label_general.innerText());
+                expect(actual_total_tiket_seat_1).toBe(expected_total_tiket);
+                expect(actual_total_tiket_seat_2).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+
+                break;
+
+            case("payment-page") :
+                const actual_total_tiket_payment_1 = this.normalizeRupiah(await this.detail_bayar_card.locator('p#totalbayar').innerText());
+                const actual_total_tiket_payment_2 = this.normalizeRupiah(await this.total_bayar_label_general.innerText());
+
+                const diskon = this.normalizeRupiah(await this.detail_bayar_card.locator('p.totalDiskon').innerText());
+                const biaya_layanan = this.normalizeRupiah(await this.detail_bayar_card.locator('p#biayalayanan').innerText());
+
+                expected_total_tiket -= diskon;
+                expected_total_tiket += biaya_layanan;
+
+                expect(actual_total_tiket_payment_1).toBe(expected_total_tiket);
+                expect(actual_total_tiket_payment_2).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+                break;
+
+            case("success-page") :
+                const actual_total_tiket_success = this.normalizeRupiah(await this.total_bayar_label_success_page.innerText());
+                expect(actual_total_tiket_success).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+                break;
         }
     }
 
