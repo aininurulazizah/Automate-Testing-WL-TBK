@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class Jackal{
     constructor(page){
 
@@ -14,7 +16,7 @@ export class Jackal{
         this.next_month_btn2 = page.locator('.flatpickr-next-month').nth(1);
         this.jumlah_penumpang = page.locator('.ss-main .ss-single-selected span:has-text("Orang")');
         this.cari_btn = page.locator('button:has-text("Cari Tiket")');
-        this.pilihjadwal_btn_first = page.locator('button:has-text("Pilih")').first();
+        this.jadwal_card = page.locator('ul.list.list-jadwal > li.list-jadwal-li');
         this.pilihjadwal_btn_plg_first = page.locator('button[onclick^="sendJadwalpp"]').first();
 
         // User Data
@@ -31,6 +33,7 @@ export class Jackal{
         this.pembayaran_btn = page.locator('button:has-text("Selanjutnya")');
 
         // Payment Confirmation Page
+        this.detail_bayar_card = page.locator('table.tbl-harga');
         this.check_ketentuan_btn = page.locator('label[for="ketentuan"]');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi Reservasi")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-footer button:has-text("Ya, Lanjutkan")');
@@ -39,6 +42,7 @@ export class Jackal{
         this.pesanan_dibuat_label = page.locator('h5:has-text("Transaksi Berhasil !")');
         this.kode_booking_label = page.locator('p:has-text("kode booking") + h4');
         this.kode_pembayaran_label = page.locator('p:has-text("kode bayar") + h4');
+        this.total_bayar_label_success_page = page.locator('p:has-text("Total Bayar") + h2');
 
         // Login
         this.login_btn = page.locator('a:has-text("Login")').first();
@@ -64,6 +68,16 @@ export class Jackal{
 
     getPlatformBayar(platform) { // Untuk mendapatkan platform pembayaran setelah pilih metode bayar
         return this.page.locator(`img[alt=${platform}]`);
+    }
+
+    normalizeRupiah(value) {
+        if (!value) return 0;
+
+        return Number(
+            value
+                .toString()
+                .replace(/[^0-9]/g, "") // hapus semua selain angka
+        );
     }
 
     async closePopup(value) {
@@ -117,7 +131,10 @@ export class Jackal{
     }
 
     async pilihJadwal() {
-        await this.pilihjadwal_btn_first.click();
+        const harga_tiket = await this.jadwal_card.first().locator('h4.harga.pcapital > p').innerText();
+        const jadwal_button = await this.jadwal_card.first().locator('button:has-text("Pilih")');
+        await jadwal_button.click();
+        return harga_tiket;
     }
 
     async pilihJadwalPulang() {
@@ -149,6 +166,71 @@ export class Jackal{
         await this.tab_plg.click();
         for(let i = 0; i < jml_penumpang; i++){
             await this.kursi_plg_tersedia.nth(i).click();
+        }
+    }
+
+    async validasiHargaTiketKursi(harga_tiket, jml_penumpang) { //Validasi harga tiket yang terpampang di kursi
+        const harga_type = harga_tiket.includes(" - ") ? "range" : "fixed";
+        let harga_min;
+        let harga_max;
+
+        if (harga_type === "range") {
+            [harga_min, harga_max] = (harga_tiket.split(" - "));
+            harga_min = this.normalizeRupiah(harga_min);
+            harga_max = this.normalizeRupiah(harga_max);
+
+            for (let i = 0; i < jml_penumpang; i++) {
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
+                expect(harga_kursi).toBeGreaterThanOrEqual(harga_min);
+                expect(harga_kursi).toBeLessThanOrEqual(harga_max);
+            }
+            
+        }
+        
+        if (harga_type === "fixed") {
+            for (let i = 0; i < jml_penumpang; i++) {
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
+                expect(harga_kursi).toBe(this.normalizeRupiah(harga_tiket));
+            }
+        }
+        
+        return true;
+
+    }
+
+    async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya) {
+
+        switch(current_page) {
+            case("seat-page") :
+
+                if (await this.validasiHargaTiketKursi(harga_tiket, jml_penumpang)) {
+                    for (let i = 0; i < jml_penumpang; i++) {
+                        const current_harga_tiket = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
+                        expected_total_tiket += current_harga_tiket;
+                    }
+                }   
+
+                const actual_total_tiket_seat = this.normalizeRupiah(await this.page.locator('h4.display-price-seat-selected').innerText());
+                expect(actual_total_tiket_seat).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+
+                break;
+
+            case("payment-page") :
+                const actual_total_tiket_payment = this.normalizeRupiah(await this.detail_bayar_card.locator('td:has-text("Total Bayar") + td').innerText());
+
+                expect(actual_total_tiket_payment).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+                break;
+
+            case("success-page") :
+                const actual_total_tiket_success = this.normalizeRupiah(await this.total_bayar_label_success_page.innerText());
+                expect(actual_total_tiket_success).toBe(expected_total_tiket);
+
+                return expected_total_tiket;
+                break;
         }
     }
 
