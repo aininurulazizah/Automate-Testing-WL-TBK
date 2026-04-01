@@ -16,7 +16,8 @@ export class Jackal{
         this.next_month_btn2 = page.locator('.flatpickr-next-month').nth(1);
         this.jumlah_penumpang = page.locator('.ss-main .ss-single-selected span:has-text("Orang")');
         this.cari_btn = page.locator('button:has-text("Cari Tiket")');
-        this.jadwal_card = page.locator('ul.list.list-jadwal > li.list-jadwal-li');
+        this.jadwal_card = page.locator('div#pergi ul.list.list-jadwal > li.list-jadwal-li');
+        this.jadwal_card_plg = page.locator('div#pulang ul.list.list-jadwal > li.list-jadwal-li');
         this.pilihjadwal_btn_plg_first = page.locator('button[onclick^="sendJadwalpp"]').first();
 
         // User Data
@@ -96,7 +97,7 @@ export class Jackal{
     }
 
     async isiTanggalPergi(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).first();
         await this.tanggal_pergi.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn.click();
@@ -109,7 +110,7 @@ export class Jackal{
     }
 
     async isiTanggalPulang(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).nth(1);
         await this.tanggal_pulang.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn2.click();
@@ -138,7 +139,10 @@ export class Jackal{
     }
 
     async pilihJadwalPulang() {
-        await this.pilihjadwal_btn_plg_first.click();
+        const harga_tiket = await this.jadwal_card_plg.first().locator('h4.harga.pcapital > p').innerText();
+        const jadwal_button = await this.jadwal_card_plg.first().locator('button:has-text("Pilih")');
+        await jadwal_button.click();
+        return harga_tiket;
     }
     
     async isiDataPenumpang(jml_penumpang, pemesan, penumpang) {
