@@ -23,6 +23,7 @@ export class Baraya {
         this.simpan_penumpang_btn = page.locator('button:has-text("Simpan")');
         this.cari_btn = page.locator('#submit'); 
         this.jadwal_card = page.locator('ul#jadwal-list-pergi > li');
+        this.jadwal_plg_card = page.locator('div#jadwal-list-pulang > li');
         this.pilihjadwal_btn_first = page.locator('button:has-text("Pilih")').first();
         this.pilihjadwal_btn_plg_first = page.locator('button[onclick^="sendJadwalpp"]').first();
 
@@ -112,7 +113,7 @@ export class Baraya {
     }
 
     async isiTanggalPergi(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).first();
         await this.tanggal_pergi.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn.click();
@@ -125,7 +126,7 @@ export class Baraya {
     }
 
     async isiTanggalPulang(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).nth(1);
         await this.tanggal_pulang.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn2.click();
@@ -160,7 +161,10 @@ export class Baraya {
     }
 
     async pilihJadwalPulang() {
-        await this.pilihjadwal_btn_plg_first.click();
+        const first_jadwal = await this.jadwal_plg_card.first();
+        const harga_tiket = await first_jadwal.locator('h4.harga').first().innerText();
+        await first_jadwal.locator('button:has-text("Pilih")').first().click();
+        return harga_tiket;
     }
 
     async isiDataPenumpang(jml_penumpang, pemesan, penumpang) {

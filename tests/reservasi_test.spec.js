@@ -118,27 +118,34 @@ for (const site of sites) {
     
             await web.isiTanggalPulang(site.data.TanggalPulang);
     
+            const jml_penumpang = site.data.JumlahPenumpang
             if(web.jumlah_penumpang){
-                await web.isiJumlahPenumpang(site.data.JumlahPenumpang); // Isi jumlah penumpang
+                await web.isiJumlahPenumpang(jml_penumpang); // Isi jumlah penumpang
             }
     
             await web.cariTiket(); // Cari tiket
     
-            await web.pilihJadwal(); // Pilih Jadwal Keberangkatan
+            const harga_tiket = await web.pilihJadwal(); // Pilih Jadwal Keberangkatan
     
-            await web.pilihJadwalPulang(); // Pilih Jadwal Pulang
+            const harga_tiket_plg = await web.pilihJadwalPulang(); // Pilih Jadwal Pulang
 
-            await web.isiDataPenumpang(site.data.JumlahPenumpang, data_Pemesan, data_Penumpang);
+            let expected_total_tiket = 0;
+
+            await web.isiDataPenumpang(jml_penumpang, data_Pemesan, data_Penumpang);
                 
             await web.cariKursi();
                 
-            await web.pilihKursi(site.data.JumlahPenumpang);
+            await web.pilihKursi(jml_penumpang);
+            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "seat-page", site.data.BiayaLainnya);
                 
             await web.pilihKursiPulang(site.data.JumlahPenumpang);
-            
+            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket_plg, jml_penumpang, expected_total_tiket, "seat-page", site.data.BiayaLainnya);
+
             await web.klikBayar();
     
             await web.pilihMetodePembayaran(site.data.MetodeBayar, site.data.PlatformBayar);
+
+            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "payment-page", site.data.BiayaLainnya);
     
             await web.checklistKetentuan();
     
@@ -151,6 +158,7 @@ for (const site of sites) {
             await expect(web.pesanan_dibuat_label).toBeVisible();
             await expect(web.kode_booking_label).toBeVisible();
             await expect(web.kode_pembayaran_label).toBeVisible();
+            await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "success-page", site.data.BiayaLainnya);
 
             const booking_code = await web.kode_booking_label.innerText();
 
