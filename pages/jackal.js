@@ -18,7 +18,6 @@ export class Jackal{
         this.cari_btn = page.locator('button:has-text("Cari Tiket")');
         this.jadwal_card = page.locator('div#pergi ul.list.list-jadwal > li.list-jadwal-li');
         this.jadwal_card_plg = page.locator('div#pulang ul.list.list-jadwal > li.list-jadwal-li');
-        this.pilihjadwal_btn_plg_first = page.locator('button[onclick^="sendJadwalpp"]').first();
 
         // User Data
         this.nama_pemesan = page.locator('#pemesan');

@@ -24,8 +24,6 @@ export class Baraya {
         this.cari_btn = page.locator('#submit'); 
         this.jadwal_card = page.locator('ul#jadwal-list-pergi > li');
         this.jadwal_plg_card = page.locator('div#jadwal-list-pulang > li');
-        this.pilihjadwal_btn_first = page.locator('button:has-text("Pilih")').first();
-        this.pilihjadwal_btn_plg_first = page.locator('button[onclick^="sendJadwalpp"]').first();
 
         // User Data
         this.nama_pemesan = page.locator('#pemesan');
