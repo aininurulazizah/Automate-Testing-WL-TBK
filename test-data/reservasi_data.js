@@ -248,7 +248,7 @@ export const testData = {
         TanggalPergi: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 7,
-            customMonthToIndo: false
+            customMonthToIndo: true
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
@@ -436,7 +436,7 @@ export const testData = {
         TanggalPergi: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 7,
-            customMonthToIndo: false
+            customMonthToIndo: true
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
@@ -454,7 +454,7 @@ export const testData = {
         TanggalPergi: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 7,
-            customMonthToIndo: false
+            customMonthToIndo: true
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
@@ -692,7 +692,7 @@ export const testData = {
         TanggalPergi: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 7,
-            customMonthToIndo: false
+            customMonthToIndo: true
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
@@ -710,7 +710,7 @@ export const testData = {
         TanggalPergi: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 7,
-            customMonthToIndo: false
+            customMonthToIndo: true
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
