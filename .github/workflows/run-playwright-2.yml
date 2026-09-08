@@ -174,7 +174,7 @@ jobs:
         if: always()
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID_NON_SCHEDULED }} \
             --data-urlencode "text=$TELEGRAM_REPORT"
 
       - name: Upload Playwright Artifacts
