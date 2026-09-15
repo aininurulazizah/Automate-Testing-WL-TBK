@@ -12,18 +12,14 @@ export class Aoshuttle {
         this.tujuan_field = page.locator('select#tujuan + div');
         this.dropdown_keberangkatan = this.keberangkatan_field.locator('div.ss-list');
         this.dropdown_tujuan = this.tujuan_field.locator('div.ss-list');
-        this.tanggal_pergi = page.locator('input#tanggal_pergi + input')
-                            .or(page.locator('input#tanggal_pergi')).first();     // Handle sementara perbedaan prod dan stg
+        this.tanggal_pergi = page.locator('input#tanggal_pergi + input');
         this.pp_checkbox =  page.locator('#is_pp');
-        this.tanggal_pulang = page.locator('input#tanggal_pulang + input')
-                            .or(page.locator('input#tanggal_pulang')).first();     // Handle sementara perbedaan prod dan stg
+        this.tanggal_pulang = page.locator('input#tanggal_pulang + input');
         this.next_month_btn = page.locator('.flatpickr-next-month');
         this.next_month_btn2 = page.locator('.flatpickr-next-month').nth(1);
-        this.jumlah_penumpang = page.locator('select#jmlpenumpang + div');
-        this.jml_penumpang_stepper = page.locator('#penumpang-label');
+        this.jumlah_penumpang = page.locator('#penumpang-label');
         this.jml_penumpang_plus = page.locator('#btn-penumpang-plus');
         this.jml_penumpang_min = page.locator('#btn-penumpang-minus');
-        this.dropdown_jml_penumpang = this.jumlah_penumpang.locator('div.ss-list');
         this.cari_btn = page.locator('button[onclick="return cek()"]'); 
         this.jadwal_card = page.locator('div#users li');
         this.jadwal_plg_card = page.locator('div#users2 li');
@@ -108,11 +104,13 @@ export class Aoshuttle {
     async isiKeberangkatan(value) {
         await this.keberangkatan_field.click();
         await this.dropdown_keberangkatan.locator(`div:text-is("${value}")`).click();
+        await this.page.locator('label:has-text("Keberangkatan")').click();
     }
 
     async isiTujuan(value) {
         await this.tujuan_field.click();
         await this.dropdown_tujuan.locator(`div:text-is("${value}")`).click();
+        await this.page.locator('label:has-text("Tujuan")').click();
     }
 
     async isiTanggalPergi(value) {
@@ -140,21 +138,11 @@ export class Aoshuttle {
 
     async isiJumlahPenumpang(value) {
 
-        if (await this.jumlah_penumpang.count() > 0) {
-            await this.jumlah_penumpang.click();
-            await this.dropdown_jml_penumpang.locator(`div:text-is("${value} Orang")`).click();
-            await this.keberangkatan_field.click(); // Untuk menghilangkan dropdown
+        let current_jml = this.normalizeRupiah(await this.jumlah_penumpang.innerText());
 
-        } else {
-            let current_jml = await this.jml_penumpang_stepper.innerText();
-
-            console.log(current_jml);
-            console.log(`${value} orang`);
-
-            while(current_jml !== `${value} orang`) {
-                await this.jml_penumpang_plus.click();
-                current_jml = this.normalizeRupiah(await this.jml_penumpang_stepper.innerText());
-            }
+        while(current_jml !== value) {
+            await this.jml_penumpang_plus.click();
+            current_jml = this.normalizeRupiah(await this.jumlah_penumpang.innerText());
         }
     }
 

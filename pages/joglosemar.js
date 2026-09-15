@@ -140,7 +140,7 @@ export class Joglosemar {
     }
 
     async isiTanggalPergi(value) {
-        const tanggal_target = this.page.locator(`[aria-label="${value}"]`).first();
+        const tanggal_target = this.page.locator(`[aria-label="${value}"]:not(.other-month)`).first();
         await this.tanggal_pergi.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn.click();
@@ -154,7 +154,9 @@ export class Joglosemar {
 
     async isiTanggalPulang(value) {
         const elemen_tgl = await this.page.locator(`[aria-label="${value}"]`).nth(1).count();
-        const tanggal_target = elemen_tgl !== 0 ? this.page.locator(`[aria-label="${value}"]`).nth(1) : this.page.locator(`[aria-label="${value}"]`);
+        const tanggal_target = elemen_tgl !== 0 
+                             ? this.page.locator(`[aria-label="${value}"]:not(.other-month)`).nth(1) 
+                             : this.page.locator(`[aria-label="${value}"]:not(.other-month)`);
         await this.tanggal_pulang.click();
         while(!(await tanggal_target.isVisible())){
             await this.next_month_btn2.click();
