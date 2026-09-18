@@ -169,7 +169,7 @@ jobs:
 
       - name: Update Dashboard Data
         run: |
-          cp reports/dashboard-data.json dashboard/src/data/dashboard-data.json
+          npm run copy-dashboard -- dashboard
 
       - name: Commit Dashboard Data
         run: |
@@ -178,7 +178,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add src/data/dashboard-data.json
+          git add src/data/dashboard-data.json src/data/executions/
 
           git diff --cached --quiet || \
             git commit -m "chore: update dashboard data"
