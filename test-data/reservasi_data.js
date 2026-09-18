@@ -179,8 +179,8 @@ export const testData = {
         MetodeBayar: "Pembayaran Instan",
         PlatformBayar: "QRIS",
         ConnectingReservation: {
-            Keberangkatan: "JATINANGOR (APARTMENT SKYLAND)",
-            Tujuan: "BAYAH"
+            Keberangkatan: "BAYAH",
+            Tujuan: "PASTEUR (KUNAFE PUSAT OLEH-OLEH )"
         }
     },
 

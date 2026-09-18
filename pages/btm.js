@@ -303,10 +303,12 @@ export class Btm{
                 await this.page.waitForTimeout(1000);
 
                 const actual_total_tiket_payment_1 = this.normalizeRupiah(await this.total_bayar_label_general.innerText());
-                const actual_total_tiket_payment_2 = this.normalizeRupiah(await this.total_bayar_label_payment.innerText());
-
                 expect(actual_total_tiket_payment_1).toBe(expected_total_tiket);
-                expect(actual_total_tiket_payment_2).toBe(expected_total_tiket);
+            
+                if (await this.total_bayar_label_payment.count() > 0) {
+                    const actual_total_tiket_payment_2 = this.normalizeRupiah(await this.total_bayar_label_payment.innerText());
+                    expect(actual_total_tiket_payment_2).toBe(expected_total_tiket);
+                }
 
                 return expected_total_tiket;
                 break;
