@@ -102,12 +102,14 @@ export class Selamat {
         await this.keberangkatan_field.click();
         await this.page.waitForTimeout(1000);
         await this.dropdown_keberangkatan.locator(`div.ss-option:text-is("${value}")`).click();
+        await this.page.locator('small:text-is("Keberangkatan")').click();
     }
 
     async isiTujuan(value) {
         await this.tujuan_field.click();
         await this.page.waitForTimeout(1000);
         await this.dropdown_tujuan.locator(`div.ss-option:text-is("${value}")`).click();
+        await this.page.locator('small:text-is("Tujuan")').click();
     }
 
     async isiTanggalPergi(value) {
