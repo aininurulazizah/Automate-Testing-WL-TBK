@@ -83,22 +83,43 @@ jobs:
             ].join(':');
           }
 
-          const data = JSON.parse(fs.readFileSync('reports/result.json', 'utf8'));
+          const data = JSON.parse(
+            fs.readFileSync('reports/result.json', 'utf8')
+          );
+
           const suites = data.suites || [];
           const stats = data.stats || {};
 
-          const executionTime = stats.startTime ? new Date(stats.startTime) : new Date();
+          const executionTime = stats.startTime
+            ? new Date(stats.startTime)
+            : new Date();
+
           const duration = stats.duration || 0;
           const durationFormatted = formatDuration(duration);
 
-          const date = executionTime.toLocaleDateString('id-ID');
-          const time = executionTime.toLocaleTimeString('id-ID', { hour12: false });
+          // Tanggal dan waktu untuk tampilan Telegram
+          const date = executionTime.toLocaleDateString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+          });
+
+          const time = executionTime.toLocaleTimeString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            hour12: false,
+          });
+
+          // Tanggal untuk URL history dashboard
+          // Harus sama dengan format di copy-to-dashboard.js
+          const executionDate = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Jakarta',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }).format(executionTime);
 
           let total = 0;
           let passed = 0;
           let failed = 0;
           let flaky = 0;
-          let detail = '';
 
           suites.forEach(suite => {
             if (!suite.file) return;
@@ -107,9 +128,14 @@ jobs:
               const test = spec.tests?.[0];
               const results = test?.results || [];
 
-              const hasPassed = results.some(r => r.status === 'passed');
-              const hasFailed = results.some(r => r.status !== 'passed');
-              
+              const hasPassed = results.some(
+                r => r.status === 'passed'
+              );
+
+              const hasFailed = results.some(
+                r => r.status !== 'passed'
+              );
+
               let status = results.at(-1)?.status || 'unknown';
 
               if (results.length > 1 && hasPassed && hasFailed) {
@@ -117,7 +143,7 @@ jobs:
               }
 
               total++;
-              
+
               if (status === 'passed') {
                 passed++;
               } else if (status === 'flaky') {
@@ -125,27 +151,28 @@ jobs:
               } else {
                 failed++;
               }
-
             });
-
           });
+
+          const dashboardUrl =
+            `https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
 
           const report =
             `AUTOMATE TEST REPORT
 
-             📅 Date: ${date} 
-             🕒 Time: ${time}
-              ⏱ Duration: ${durationFormatted}
+          📅 Date: ${date}
+          🕒 Time: ${time}
+          ⏱ Duration: ${durationFormatted}
 
-             Summary
-             🧪 Total: ${total}
-             ✅ Passed: ${passed}
-             ⚠️ Flaky: ${flaky}
-             ❌ Failed: ${failed}
+          Summary
+          🧪 Total: ${total}
+          ✅ Passed: ${passed}
+          ⚠️ Flaky: ${flaky}
+          ❌ Failed: ${failed}
 
-             🔗 Detailed Test Results
-             https://automate-testing-dashboard-tbk-jo5p.vercel.app/
-             `;
+          🔗 Detailed Test Results
+          ${dashboardUrl}
+          `;
 
           fs.appendFileSync(
             process.env.GITHUB_ENV,
@@ -169,7 +196,7 @@ jobs:
 
       - name: Update Dashboard Data
         run: |
-          cp reports/dashboard-data.json dashboard/src/data/dashboard-data.json
+          npm run copy-dashboard -- dashboard
 
       - name: Commit Dashboard Data
         run: |
@@ -178,7 +205,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add src/data/dashboard-data.json
+          git add src/data/dashboard-data.json src/data/executions/
 
           git diff --cached --quiet || \
             git commit -m "chore: update dashboard data"
