@@ -19,7 +19,7 @@ if (!dashboardPath) {
   process.exit(1);
 }
 
-const dashboardRoot = path.resolve(__dirname, dashboardPath);
+const dashboardRoot = path.resolve(__dirname, '..', dashboardPath);
 
 const currentDataDestination = path.join(
   dashboardRoot,
