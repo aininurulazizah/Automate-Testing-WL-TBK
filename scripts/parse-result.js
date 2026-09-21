@@ -26,6 +26,14 @@ const statusOrder = {
   skipped: 4
 };
 
+const startTimes = details
+  .map(detail => new Date(detail.startTime).getTime())
+  .filter(time => !isNaN(time));
+
+const startedAt = startTimes.length
+  ? new Date(Math.min(...startTimes)).toISOString()
+  : null;
+
 details.sort((a, b) => {
   // Urutkan berdasarkan status
   const statusComparison =
@@ -40,6 +48,7 @@ details.sort((a, b) => {
 });
 
 const dashboardData = {
+  startedAt,
   generatedAt: new Date().toISOString(),
   summary: {
     ...summary,
