@@ -66,10 +66,10 @@ console.log('✅ dashboard-data.json berhasil dibuat');
 
 function walkSuites(suites) {
   for (const suite of suites) {
-
+    
     if (suite.specs) {
       for (const spec of suite.specs) {
-
+        
         const test = spec.tests?.[0];
 
         if (!test) continue;
@@ -79,7 +79,7 @@ function walkSuites(suites) {
         if (results.length === 0) continue;
 
         const lastResult = results.at(-1);
-
+        
         const status = getTestStatus(results);
 
         summary.total++;
@@ -110,15 +110,16 @@ function walkSuites(suites) {
           duration: lastResult.duration ?? 0,
           browser: test.projectName,
           startTime: lastResult.startTime,
-          bookingCode: status === 'passed'
-          ? getBookingCode(lastResult.attachments)
-          : null,
+
+          // Booking code dicari dari semua attempt/retry
+          bookingCode: getBookingCodeFromResults(results),
+
           error: status === 'passed'
-          ? null
-          : {
-              summary: cleanAnsi(lastResult.error?.message),
-              detail: cleanAnsi(lastResult.errors?.at(-1)?.message)
-            }
+            ? null
+            : {
+                summary: cleanAnsi(lastResult.error?.message),
+                detail: cleanAnsi(lastResult.errors?.at(-1)?.message)
+              }
         });
       }
     }
@@ -165,9 +166,22 @@ function formatDuration(ms) {
 }
 
 function cleanAnsi(text) {
-    if (!text) return null;
-  
-    return text.replace(/\u001b\[[0-9;]*m/g, '');
+  if (!text) return null;
+
+  return text.replace(/\u001b\[[0-9;]*m/g,'');
+}
+
+function getBookingCodeFromResults(results) {
+  // Cari dari attempt terakhir ke attempt pertama
+  for (const result of [...results].reverse()) {
+    const bookingCode = getBookingCode(result.attachments);
+
+    if (bookingCode) {
+      return bookingCode;
+    }
+  }
+
+  return null;
 }
 
 function getBookingCode(attachments) {
