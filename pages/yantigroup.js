@@ -345,9 +345,8 @@ export class Yantigroup {
     }
 
     async pilihMetodePembayaran(metode_bayar, platform_bayar){
-        if (process.env.GITHUB_ACTIONS === 'true') {
-            await this.page.reload();
-        }
+        await this.page.waitForLoadState('load');
+        await this.page.reload();
     
         await this.waitForLoader('div#modal-load', 'show', false);
         await this.waitForLoader('div#load-container-payment', 'd-none', true);

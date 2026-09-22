@@ -151,15 +151,9 @@ export class Selamat {
         const first_jadwal = await this.jadwal_card.first();
         const harga_tiket = await first_jadwal.locator('h4.harga').innerText();
         await first_jadwal.locator('a:has-text("Pilih")').click();
-        return harga_tiket;
-    }
 
-    async pilihJadwalPulang() {
-        await this.waitForLoader('div#modal-load', 'show', false);
+        await this.page.waitForURL('**/book/pemesan', { timeout: 120000 });
 
-        const first_jadwal = await this.jadwal_plg_card.first();
-        const harga_tiket = await first_jadwal.locator('p:has-text("Rp")').first().innerText();
-        await first_jadwal.locator('button:has-text("Pilih")').first().click();
         return harga_tiket;
     }
 
