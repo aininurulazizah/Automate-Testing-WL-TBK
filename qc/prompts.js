@@ -140,12 +140,12 @@ export async function askClients(defaultClientIds = [], options = {}) {
 
       for (const token of tokens) {
         const term = token.toLowerCase();
-        const found = clients.find(c => 
-          c.name.toLowerCase() === term || 
-          c.id.toLowerCase() === term || 
+        const found = clients.find(c =>
+          c.name.toLowerCase() === term ||
+          c.id.toLowerCase() === term ||
           (c.tag && c.tag.toLowerCase() === term)
-        ) || clients.find(c => 
-          c.name.toLowerCase().includes(term) || 
+        ) || clients.find(c =>
+          c.name.toLowerCase().includes(term) ||
           (c.tag && c.tag.toLowerCase().includes(term))
         );
 
@@ -231,7 +231,7 @@ export async function askAdvancedOptions(defaults = {}) {
       { name: "1 Retry", value: 1 },
       { name: "2 Retries", value: 2 },
     ],
-    default: defaults.retries ?? 0,
+    default: defaults.retries ?? 2,
   });
 
   const autoOpenReport = await confirm({
