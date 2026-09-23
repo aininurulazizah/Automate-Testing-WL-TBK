@@ -19,8 +19,8 @@ export class Joglosemar {
         this.tanggal_pulang = page.locator('#tanggal_pulang');
         this.next_month_btn = page.locator('.flatpickr-next-month');
         this.next_month_btn2 = page.locator('.flatpickr-next-month').nth(1);
-        this.jumlah_penumpang = page.locator('select#jmlpenumpang + div');
-        this.dropdown_jml_penumpang = this.jumlah_penumpang.locator('div.ss-list');
+        this.jumlah_penumpang = page.locator('span#penumpang-label');
+        this.add_penumpang = page.locator('#btn-penumpang-plus');
         this.cari_btn = page.locator('button[onclick="return cek()"]'); 
         this.jadwal_card = page.locator('div#users li');
         this.jadwal_plg_card = page.locator('div#users').nth(1).locator('li');
@@ -165,8 +165,13 @@ export class Joglosemar {
     }
 
     async isiJumlahPenumpang(value) {
-        await this.jumlah_penumpang.click();
-        await this.dropdown_jml_penumpang.locator(`div:text-is("${value} Orang")`).click();
+        let current_jml = this.normalizeRupiah(await this.jumlah_penumpang.innerText());
+
+        while (current_jml !== value) {
+            console.log(current_jml);
+            await this.add_penumpang.click();
+            current_jml = this.normalizeRupiah(await this.jumlah_penumpang.innerText());
+        }
     }
 
     async cariTiket() {

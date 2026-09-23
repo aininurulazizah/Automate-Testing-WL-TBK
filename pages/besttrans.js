@@ -58,6 +58,9 @@ export class Besttrans {
         this.total_bayar_label_2 = page.locator('p:has-text("Total Bayar") + p');
         this.total_harga_label_2 = page.locator('p:has-text("Total Harga") + p');
 
+        //Booked Page v3
+        this.total_harga_label_3 = page.locator('p:has-text("Total Harga") + div > p');
+
         // Login
         this.login_btn = page.locator('a:has-text("Masuk")');
         this.login_phone_btn = page.locator('button:has-text("Nomor Telepon")');
@@ -330,6 +333,8 @@ export class Besttrans {
                     actual_total_tiket_success = this.normalizeRupiah(await this.total_bayar_label_2.innerText());
                 } else if (await this.total_harga_label_2.count() > 0) {
                     actual_total_tiket_success = this.normalizeRupiah(await this.total_harga_label_2.innerText());
+                } else if (await this.total_harga_label_3.count() > 0) {
+                    actual_total_tiket_success = this.normalizeRupiah(await this.total_harga_label_3.innerText());
                 }
 
                 expect(actual_total_tiket_success).toBe(expected_total_tiket);
