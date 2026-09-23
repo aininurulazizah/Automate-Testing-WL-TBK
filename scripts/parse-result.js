@@ -47,9 +47,17 @@ details.sort((a, b) => {
   return a.title.localeCompare(b.title);
 });
 
+const githubRunUrl =
+  process.env.GITHUB_SERVER_URL &&
+  process.env.GITHUB_REPOSITORY &&
+  process.env.GITHUB_RUN_ID
+    ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+    : null;
+
 const dashboardData = {
   startedAt,
   generatedAt: new Date().toISOString(),
+  githubRunUrl,
   summary: {
     ...summary,
     durationFormatted: formatDuration(summary.duration)
