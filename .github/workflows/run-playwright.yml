@@ -66,6 +66,7 @@ jobs:
         run: npm run parse-report
 
       - name: Upload Playwright Artifacts
+        id: upload_artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -73,6 +74,25 @@ jobs:
           path: |
             test-results
             playwright-report
+
+      - name: Add Artifact URL to Dashboard Data
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const filePath = 'reports/dashboard-data.json';
+          const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+          data.githubRunUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/artifacts/${process.env.ARTIFACT_ID}`;
+
+          fs.writeFileSync(
+            filePath,
+            JSON.stringify(data, null, 2)
+          );
+
+          console.log(`Artifact URL: ${data.githubRunUrl}`);
+          EOF
+        env:
+          ARTIFACT_ID: ${{ steps.upload_artifacts.outputs.artifact-id }}
 
       - name: Build Telegram Report
         run: |
