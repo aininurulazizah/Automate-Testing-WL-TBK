@@ -186,93 +186,93 @@ jobs:
         run: |
           node <<'EOF'
           const fs = require('fs');
-/*
-          function formatDuration(ms) {
-            const totalSeconds = Math.floor(ms / 1000);
-            const hours = Math.floor(totalSeconds / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
-            const seconds = totalSeconds % 60;
 
-            return [
-              String(hours).padStart(2, '0'),
-              String(minutes).padStart(2, '0'),
-              String(seconds).padStart(2, '0'),
-            ].join(':');
-          }
+          //function formatDuration(ms) {
+            //const totalSeconds = Math.floor(ms / 1000);
+            //const hours = Math.floor(totalSeconds / 3600);
+            //const minutes = Math.floor((totalSeconds % 3600) / 60);
+            //const seconds = totalSeconds % 60;
 
-          const data = JSON.parse(
-            fs.readFileSync('reports/result.json', 'utf8')
-          );
+            //return [
+              //String(hours).padStart(2, '0'),
+              //String(minutes).padStart(2, '0'),
+              //String(seconds).padStart(2, '0'),
+            //].join(':');
+          //}
 
-          const suites = data.suites || [];
-          const stats = data.stats || {};
+          //const data = JSON.parse(
+            //fs.readFileSync('reports/result.json', 'utf8')
+          //);
 
-          const executionTime = stats.startTime
-            ? new Date(stats.startTime)
-            : new Date();
+          //const suites = data.suites || [];
+          //const stats = data.stats || {};
 
-          const duration = stats.duration || 0;
-          const durationFormatted = formatDuration(duration);
+          //const executionTime = stats.startTime
+            //? new Date(stats.startTime)
+            //: new Date();
 
-          // Tanggal dan waktu untuk tampilan Telegram
-          const date = executionTime.toLocaleDateString('id-ID', {
-            timeZone: 'Asia/Jakarta',
+          //const duration = stats.duration || 0;
+          //const durationFormatted = formatDuration(duration);
+
+          // // Tanggal dan waktu untuk tampilan Telegram
+          //const date = executionTime.toLocaleDateString('id-ID', {
+            //timeZone: 'Asia/Jakarta',
+          //});
+
+          //const time = executionTime.toLocaleTimeString('id-ID', {
+            //timeZone: 'Asia/Jakarta',
+            //hour12: false,
+          //});
+
+          // // Tanggal untuk URL history dashboard
+          //const executionDate = new Intl.DateTimeFormat('en-CA', {
+            //timeZone: 'Asia/Jakarta',
+            //year: 'numeric',
+            //month: '2-digit',
+            //day: '2-digit',
+          //}).format(executionTime);
+
+          //let total = 0;
+          //let passed = 0;
+          //let failed = 0;
+          //let flaky = 0;
+
+          //suites.forEach(suite => {
+            //if (!suite.file) return;
+
+            //(suite.specs || []).forEach(spec => {
+              //const test = spec.tests?.[0];
+              //const results = test?.results || [];
+
+              //const hasPassed = results.some(
+                //r => r.status === 'passed'
+              //);
+
+              //const hasFailed = results.some(
+                //r => r.status !== 'passed'
+              //);
+
+              //let status = results.at(-1)?.status || 'unknown';
+
+              //if (results.length > 1 && hasPassed && hasFailed) {
+                //status = 'flaky';
+              //}
+
+              //total++;
+
+              //if (status === 'passed') {
+                //passed++;
+              //} else if (status === 'flaky') {
+                //flaky++;
+              //} else {
+                //failed++;
+              //}
+            //});
           });
 
-          const time = executionTime.toLocaleTimeString('id-ID', {
-            timeZone: 'Asia/Jakarta',
-            hour12: false,
-          });
+          //const dashboardUrl =
+            //`https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
 
-          // Tanggal untuk URL history dashboard
-          const executionDate = new Intl.DateTimeFormat('en-CA', {
-            timeZone: 'Asia/Jakarta',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          }).format(executionTime);
-
-          let total = 0;
-          let passed = 0;
-          let failed = 0;
-          let flaky = 0;
-
-          suites.forEach(suite => {
-            if (!suite.file) return;
-
-            (suite.specs || []).forEach(spec => {
-              const test = spec.tests?.[0];
-              const results = test?.results || [];
-
-              const hasPassed = results.some(
-                r => r.status === 'passed'
-              );
-
-              const hasFailed = results.some(
-                r => r.status !== 'passed'
-              );
-
-              let status = results.at(-1)?.status || 'unknown';
-
-              if (results.length > 1 && hasPassed && hasFailed) {
-                status = 'flaky';
-              }
-
-              total++;
-
-              if (status === 'passed') {
-                passed++;
-              } else if (status === 'flaky') {
-                flaky++;
-              } else {
-                failed++;
-              }
-            });
-          });
-
-          const dashboardUrl =
-            `https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
-*/
           const isMonthEnd = process.env.IS_MONTH_END === 'true'; 
           const artifactId = process.env.MONTHLY_ARTIFACT_ID; 
           let monthlyArchiveSection = ''; 
