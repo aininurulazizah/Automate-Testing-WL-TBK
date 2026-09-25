@@ -268,7 +268,7 @@ jobs:
                 //failed++;
               //}
             //});
-          });
+          //});
 
           //const dashboardUrl =
             //`https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
