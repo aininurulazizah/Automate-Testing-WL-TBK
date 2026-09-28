@@ -117,7 +117,7 @@ jobs:
           echo "Tomorrow: $TOMORROW"
           echo "This month: $TODAY_MONTH"
 
-          if [ "$TODAY" = "2026-09-27" ]; then
+          if [ "$TODAY_MONTH" != "$TOMORROW_MONTH" ]; then
             echo "is_month_end=true" >> "$GITHUB_OUTPUT"
             echo "Today is the LAST DAY of the month."
           else
