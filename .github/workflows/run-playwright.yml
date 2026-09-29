@@ -17,6 +17,11 @@ on:
         description: "Rerun failed test"
         required: false
         default: "false"
+
+      execution_date:
+        description: "Execution date yang akan di-update"
+        required: false
+        default: ""
         
   schedule:
     - cron: "0 19 * * *"
@@ -69,9 +74,10 @@ jobs:
 
         continue-on-error: true
 
-      # - name: Generate Json For Dashboard Data
-      #   run: npm run parse-report
-
+      - name: Generate Json For Dashboard Data
+        if: github.event.inputs.rerun != 'true'
+        run: npm run parse-report
+  
       # - name: Upload Playwright Artifacts
       #   id: upload_artifacts
       #   if: always()
@@ -81,6 +87,14 @@ jobs:
       #     path: |
       #       test-results
       #       playwright-report
+
+      - name: Upload Rerun Result
+        if: github.event.inputs.rerun == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: rerun-result
+          path: reports/result.json
+          retention-days: 7
 
       # - name: Add Artifact URL to Dashboard Data
       #   run: |
