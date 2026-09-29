@@ -111,6 +111,24 @@ jobs:
             "${{ github.event.inputs.execution_date }}" \
             "reports/result.json"
 
+      - name: Commit Rerun Result to Dashboard
+        if: github.event.inputs.rerun == 'true'
+        run: |
+          cd dashboard
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add "src/data/executions/${{ github.event.inputs.execution_date }}.json"
+
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan untuk di-commit."
+            exit 0
+          fi
+
+          git commit -m "chore: merge rerun ${{ github.event.inputs.execution_date }}"
+          git push 
+
       # - name: Add Artifact URL to Dashboard Data
       #   run: |
       #     node <<'EOF'
