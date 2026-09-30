@@ -6,8 +6,6 @@ Proyek automasi testing untuk proses pemesanan reservasi tiket bus/shuttle pada 
 - **Node.js v18+** (v22.11.0 digunakan) — Runtime JavaScript untuk menjalankan Playwright
 - **Git** — Version control
 - **Playwright** — Framework automated UI testing
-- **GitHub Actions** — CI untuk menjalankan automated test secara otomatis
-- **Telegram Bot API** — Notifikasi hasil pengujian ke telegram
 - **Visual Studio Code** (atau editor lain) — Code editor
   
 ### Cara Menjalankan
