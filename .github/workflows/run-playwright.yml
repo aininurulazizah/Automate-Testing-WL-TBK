@@ -77,16 +77,6 @@ jobs:
       - name: Generate Json For Dashboard Data
         if: github.event.inputs.rerun != 'true'
         run: npm run parse-report
-  
-      # - name: Upload Playwright Artifacts
-      #   id: upload_artifacts
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: playwright-artifacts
-      #     path: |
-      #       test-results
-      #       playwright-report
 
       - name: Upload Rerun Result
         if: github.event.inputs.rerun == 'true'
@@ -129,289 +119,299 @@ jobs:
           git commit -m "chore: merge rerun ${{ github.event.inputs.execution_date }}"
           git push 
 
-      # - name: Add Artifact URL to Dashboard Data
-      #   run: |
-      #     node <<'EOF'
-      #     const fs = require('fs');
-      #     const filePath = 'reports/dashboard-data.json';
-      #     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      - name: Upload Playwright Artifacts
+        id: upload_artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            test-results
+            playwright-report
 
-      #     data.githubRunUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/artifacts/${process.env.ARTIFACT_ID}`;
+      - name: Add Artifact URL to Dashboard Data
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const filePath = 'reports/dashboard-data.json';
+          const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-      #     fs.writeFileSync(
-      #       filePath,
-      #       JSON.stringify(data, null, 2)
-      #     );
+          data.githubRunUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}/artifacts/${process.env.ARTIFACT_ID}`;
 
-      #     console.log(`Artifact URL: ${data.githubRunUrl}`);
-      #     EOF
-      #   env:
-      #     ARTIFACT_ID: ${{ steps.upload_artifacts.outputs.artifact-id }}
+          fs.writeFileSync(
+            filePath,
+            JSON.stringify(data, null, 2)
+          );
 
-      # - name: Checkout to Dashboard repository
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: aininurulazizah/Automate-Testing-Dashboard-TBK
-      #     token: ${{ secrets.DASHBOARD_REPO_TOKEN }}
-      #     path: dashboard
+          console.log(`Artifact URL: ${data.githubRunUrl}`);
+          EOF
+        env:
+          ARTIFACT_ID: ${{ steps.upload_artifacts.outputs.artifact-id }}
 
-      # - name: Update Dashboard Data
-      #   run: |
-      #     npm run copy-dashboard -- dashboard
+      - name: Checkout to Dashboard repository
+        uses: actions/checkout@v4
+        with:
+          repository: aininurulazizah/Automate-Testing-Dashboard-TBK
+          token: ${{ secrets.DASHBOARD_REPO_TOKEN }}
+          path: dashboard
 
-      # - name: Check if last day of month
-      #   id: month_check
-      #   run: |
-      #     TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
-      #     TOMORROW=$(TZ=Asia/Jakarta date -d "$TODAY + 1 day" +%Y-%m-%d)
-      #     TODAY_MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
-      #     TOMORROW_MONTH=$(TZ=Asia/Jakarta date -d "$TOMORROW" +%Y-%m)
+      - name: Update Dashboard Data
+        run: |
+          npm run copy-dashboard -- dashboard
 
-      #     echo "Today: $TODAY"
-      #     echo "Tomorrow: $TOMORROW"
-      #     echo "This month: $TODAY_MONTH"
+      - name: Check if last day of month
+        id: month_check
+        run: |
+          TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
+          TOMORROW=$(TZ=Asia/Jakarta date -d "$TODAY + 1 day" +%Y-%m-%d)
+          TODAY_MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
+          TOMORROW_MONTH=$(TZ=Asia/Jakarta date -d "$TOMORROW" +%Y-%m)
 
-      #     if [ "$TODAY_MONTH" != "$TOMORROW_MONTH" ]; then
-      #       echo "is_month_end=true" >> "$GITHUB_OUTPUT"
-      #       echo "Today is the LAST DAY of the month."
-      #     else
-      #       echo "is_month_end=false" >> "$GITHUB_OUTPUT"
-      #       echo "Today is NOT the last day of the month."
-      #     fi
+          echo "Today: $TODAY"
+          echo "Tomorrow: $TOMORROW"
+          echo "This month: $TODAY_MONTH"
 
-      # - name: Create Monthly Execution ZIP
-      #   if: steps.month_check.outputs.is_month_end == 'true'
-      #   id: monthly_zip
-      #   run: |
-      #     TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
-      #     MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
+          if [ "$TODAY_MONTH" != "$TOMORROW_MONTH" ]; then
+            echo "is_month_end=true" >> "$GITHUB_OUTPUT"
+            echo "Today is the LAST DAY of the month."
+          else
+            echo "is_month_end=false" >> "$GITHUB_OUTPUT"
+            echo "Today is NOT the last day of the month."
+          fi
 
-      #     ZIP_NAME="monthly-executions-${MONTH}.zip"
+      - name: Create Monthly Execution ZIP
+        if: steps.month_check.outputs.is_month_end == 'true'
+        id: monthly_zip
+        run: |
+          TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
+          MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
 
-      #     echo "Creating monthly archive for: $MONTH"
-      #     echo "ZIP name: $ZIP_NAME"
+          ZIP_NAME="monthly-executions-${MONTH}.zip"
 
-      #     mkdir -p monthly-archive
+          echo "Creating monthly archive for: $MONTH"
+          echo "ZIP name: $ZIP_NAME"
 
-      #     find dashboard/src/data/executions \
-      #       -maxdepth 1 \
-      #       -type f \
-      #       -name "${MONTH}-*.json" \
-      #       -exec cp {} monthly-archive/ \;
+          mkdir -p monthly-archive
 
-      #     echo ""
-      #     echo "Files included in monthly archive:"
-      #     ls -lah monthly-archive
+          find dashboard/src/data/executions \
+            -maxdepth 1 \
+            -type f \
+            -name "${MONTH}-*.json" \
+            -exec cp {} monthly-archive/ \;
 
-      #     FILE_COUNT=$(find monthly-archive \
-      #       -type f \
-      #       -name "*.json" \
-      #       | wc -l)
+          echo ""
+          echo "Files included in monthly archive:"
+          ls -lah monthly-archive
 
-      #     echo ""
-      #     echo "Total execution files: $FILE_COUNT"
+          FILE_COUNT=$(find monthly-archive \
+            -type f \
+            -name "*.json" \
+            | wc -l)
 
-      #     if [ "$FILE_COUNT" -eq 0 ]; then
-      #       echo "ERROR: No execution files found for ${MONTH}"
-      #       exit 1
-      #     fi
+          echo ""
+          echo "Total execution files: $FILE_COUNT"
 
-      #     zip -j "$ZIP_NAME" monthly-archive/*.json
+          if [ "$FILE_COUNT" -eq 0 ]; then
+            echo "ERROR: No execution files found for ${MONTH}"
+            exit 1
+          fi
 
-      #     echo ""
-      #     echo "Monthly ZIP created:"
-      #     ls -lh "$ZIP_NAME"
+          zip -j "$ZIP_NAME" monthly-archive/*.json
 
-      #     echo "zip_name=$ZIP_NAME" >> "$GITHUB_OUTPUT"
+          echo ""
+          echo "Monthly ZIP created:"
+          ls -lh "$ZIP_NAME"
 
-      # - name: Upload Monthly Execution ZIP 
-      #   if: steps.month_check.outputs.is_month_end == 'true' 
-      #   id: upload_monthly_archive 
-      #   uses: actions/upload-artifact@v4 
-      #   with: 
-      #     name: ${{ steps.monthly_zip.outputs.zip_name }} 
-      #     path: ${{ steps.monthly_zip.outputs.zip_name }} 
-      #     retention-days: 90
+          echo "zip_name=$ZIP_NAME" >> "$GITHUB_OUTPUT"
 
-      # - name: Build Telegram Report Notification
-      #   env: 
-      #     IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
-      #     MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
-      #   run: |
-      #     node <<'EOF'
-      #     const fs = require('fs');
+      - name: Upload Monthly Execution ZIP 
+        if: steps.month_check.outputs.is_month_end == 'true' 
+        id: upload_monthly_archive 
+        uses: actions/upload-artifact@v4 
+        with: 
+          name: ${{ steps.monthly_zip.outputs.zip_name }} 
+          path: ${{ steps.monthly_zip.outputs.zip_name }} 
+          retention-days: 90
 
-      #     function formatDuration(ms) {
-      #       const totalSeconds = Math.floor(ms / 1000);
-      #       const hours = Math.floor(totalSeconds / 3600);
-      #       const minutes = Math.floor((totalSeconds % 3600) / 60);
-      #       const seconds = totalSeconds % 60;
+      - name: Build Telegram Report Notification
+        env: 
+          IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
+          MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
 
-      #       return [
-      #         String(hours).padStart(2, '0'),
-      #         String(minutes).padStart(2, '0'),
-      #         String(seconds).padStart(2, '0'),
-      #       ].join(':');
-      #     }
+          function formatDuration(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
 
-      #     const data = JSON.parse(
-      #       fs.readFileSync('reports/result.json', 'utf8')
-      #     );
+            return [
+              String(hours).padStart(2, '0'),
+              String(minutes).padStart(2, '0'),
+              String(seconds).padStart(2, '0'),
+            ].join(':');
+          }
 
-      #     const suites = data.suites || [];
-      #     const stats = data.stats || {};
+          const data = JSON.parse(
+            fs.readFileSync('reports/result.json', 'utf8')
+          );
 
-      #     const executionTime = stats.startTime
-      #       ? new Date(stats.startTime)
-      #       : new Date();
+          const suites = data.suites || [];
+          const stats = data.stats || {};
 
-      #     const duration = stats.duration || 0;
-      #     const durationFormatted = formatDuration(duration);
+          const executionTime = stats.startTime
+            ? new Date(stats.startTime)
+            : new Date();
 
-      #     // Tanggal dan waktu untuk tampilan Telegram
-      #     const date = executionTime.toLocaleDateString('id-ID', {
-      #       timeZone: 'Asia/Jakarta',
-      #     });
+          const duration = stats.duration || 0;
+          const durationFormatted = formatDuration(duration);
 
-      #     const time = executionTime.toLocaleTimeString('id-ID', {
-      #       timeZone: 'Asia/Jakarta',
-      #       hour12: false,
-      #     });
+          // Tanggal dan waktu untuk tampilan Telegram
+          const date = executionTime.toLocaleDateString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+          });
 
-      #     // Tanggal untuk URL history dashboard
-      #     const executionDate = new Intl.DateTimeFormat('en-CA', {
-      #       timeZone: 'Asia/Jakarta',
-      #       year: 'numeric',
-      #       month: '2-digit',
-      #       day: '2-digit',
-      #     }).format(executionTime);
+          const time = executionTime.toLocaleTimeString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            hour12: false,
+          });
 
-      #     let total = 0;
-      #     let passed = 0;
-      #     let failed = 0;
-      #     let flaky = 0;
+          // Tanggal untuk URL history dashboard
+          const executionDate = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Asia/Jakarta',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          }).format(executionTime);
 
-      #     suites.forEach(suite => {
-      #       if (!suite.file) return;
+          let total = 0;
+          let passed = 0;
+          let failed = 0;
+          let flaky = 0;
 
-      #       (suite.specs || []).forEach(spec => {
-      #         const test = spec.tests?.[0];
-      #         const results = test?.results || [];
+          suites.forEach(suite => {
+            if (!suite.file) return;
 
-      #         const hasPassed = results.some(
-      #           r => r.status === 'passed'
-      #         );
+            (suite.specs || []).forEach(spec => {
+              const test = spec.tests?.[0];
+              const results = test?.results || [];
 
-      #         const hasFailed = results.some(
-      #           r => r.status !== 'passed'
-      #         );
+              const hasPassed = results.some(
+                r => r.status === 'passed'
+              );
 
-      #         let status = results.at(-1)?.status || 'unknown';
+              const hasFailed = results.some(
+                r => r.status !== 'passed'
+              );
 
-      #         if (results.length > 1 && hasPassed && hasFailed) {
-      #           status = 'flaky';
-      #         }
+              let status = results.at(-1)?.status || 'unknown';
 
-      #         total++;
+              if (results.length > 1 && hasPassed && hasFailed) {
+                status = 'flaky';
+              }
 
-      #         if (status === 'passed') {
-      #           passed++;
-      #         } else if (status === 'flaky') {
-      #           flaky++;
-      #         } else {
-      #           failed++;
-      #         }
-      #       });
-      #     });
+              total++;
 
-      #     const dashboardUrl =
-      #       `https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
+              if (status === 'passed') {
+                passed++;
+              } else if (status === 'flaky') {
+                flaky++;
+              } else {
+                failed++;
+              }
+            });
+          });
 
-      #     const report =
-      #       `AUTOMATE TEST REPORT
+          const dashboardUrl =
+            `https://automate-testing-dashboard-tbk-jo5p.vercel.app/${executionDate}`;
 
-      #     📅 Date: ${date}
-      #     🕒 Time: ${time}
-      #     ⏱ Duration: ${durationFormatted}
+          const report =
+            `AUTOMATE TEST REPORT
 
-      #     Summary
-      #     🧪 Total: ${total}
-      #     ✅ Passed: ${passed}
-      #     ⚠️ Flaky: ${flaky}
-      #     ❌ Failed: ${failed}
+          📅 Date: ${date}
+          🕒 Time: ${time}
+          ⏱ Duration: ${durationFormatted}
 
-      #     🔗 Detailed Test Results
-      #     ${dashboardUrl}
-      #     `;
+          Summary
+          🧪 Total: ${total}
+          ✅ Passed: ${passed}
+          ⚠️ Flaky: ${flaky}
+          ❌ Failed: ${failed}
 
-      #     fs.appendFileSync(
-      #       process.env.GITHUB_ENV,
-      #       `TELEGRAM_REPORT<<EOF\n${report}\nEOF\n`
-      #     );
-      #     EOF
+          🔗 Detailed Test Results
+          ${dashboardUrl}
+          `;
 
-      # - name: Build Telegram Backup Archive Notification
-      #   env: 
-      #     IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
-      #     MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
-      #   run: |
-      #     node <<'EOF'
-      #     const fs = require('fs');
+          fs.appendFileSync(
+            process.env.GITHUB_ENV,
+            `TELEGRAM_REPORT<<EOF\n${report}\nEOF\n`
+          );
+          EOF
 
-      #     const isMonthEnd = process.env.IS_MONTH_END === 'true'; 
-      #     const artifactId = process.env.MONTHLY_ARTIFACT_ID; 
-      #     let monthlyArchiveSection = ''; 
+      - name: Build Telegram Backup Archive Notification
+        env: 
+          IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
+          MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+
+          const isMonthEnd = process.env.IS_MONTH_END === 'true'; 
+          const artifactId = process.env.MONTHLY_ARTIFACT_ID; 
+          let monthlyArchiveSection = ''; 
           
-      #     if ( isMonthEnd && artifactId ) { 
-      #       const monthlyArchiveUrl = 
-      #         `${process.env.GITHUB_SERVER_URL}/` + 
-      #         `${process.env.GITHUB_REPOSITORY}/actions/runs/` + 
-      #         `${process.env.GITHUB_RUN_ID}/artifacts/` + 
-      #         `${artifactId}`; 
+          if ( isMonthEnd && artifactId ) { 
+            const monthlyArchiveUrl = 
+              `${process.env.GITHUB_SERVER_URL}/` + 
+              `${process.env.GITHUB_REPOSITORY}/actions/runs/` + 
+              `${process.env.GITHUB_RUN_ID}/artifacts/` + 
+              `${artifactId}`; 
               
-      #       monthlyArchiveSection = `
+            monthlyArchiveSection = `
             
-      #     📦 Monthly Backup Archive 
-      #     ${monthlyArchiveUrl} 
-      #     `;
-      #     }
+          📦 Monthly Backup Archive 
+          ${monthlyArchiveUrl} 
+          `;
+          }
 
-      #     const report =
-      #       `
-      #     ${monthlyArchiveSection}
-      #     `;
+          const report =
+            `
+          ${monthlyArchiveSection}
+          `;
 
-      #     fs.appendFileSync(
-      #       process.env.GITHUB_ENV,
-      #       `TELEGRAM_BACKUP_REPORT<<EOF\n${report}\nEOF\n`
-      #     );
-      #     EOF
+          fs.appendFileSync(
+            process.env.GITHUB_ENV,
+            `TELEGRAM_BACKUP_REPORT<<EOF\n${report}\nEOF\n`
+          );
+          EOF
 
-      # - name: Send Telegram Report Notification
-      #   if: always()
-      #   run: |
-      #     curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-      #       -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-      #       --data-urlencode "text=$TELEGRAM_REPORT"
+      - name: Send Telegram Report Notification
+        if: always()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            --data-urlencode "text=$TELEGRAM_REPORT"
 
-      # - name: Send Telegram Backup Archive Notification
-      #   if: steps.month_check.outputs.is_month_end == 'true'
-      #   run: |
-      #     curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-      #       -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-      #       --data-urlencode "text=$TELEGRAM_BACKUP_REPORT"
+      - name: Send Telegram Backup Archive Notification
+        if: steps.month_check.outputs.is_month_end == 'true'
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            --data-urlencode "text=$TELEGRAM_BACKUP_REPORT"
 
-      # - name: Commit Dashboard Data
-      #   run: |
-      #     cd dashboard
+      - name: Commit Dashboard Data
+        run: |
+          cd dashboard
 
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      #     git add src/data/dashboard-data.json src/data/executions/
+          git add src/data/dashboard-data.json src/data/executions/
 
-      #     git diff --cached --quiet || \
-      #       git commit -m "chore: update dashboard data"
+          git diff --cached --quiet || \
+            git commit -m "chore: update dashboard data"
 
-      #     git push
+          git push
 
