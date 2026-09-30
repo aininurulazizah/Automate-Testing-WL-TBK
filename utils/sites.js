@@ -50,7 +50,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.adi-buzz.com/',
-            staging: 'https://adibuzz-web.asmat.app/'
+            staging: 'https://dev.web.adibuzz.asmat.app/'
         },
         locator: Adibuzz, 
         data: testData.Adibuzz, 
@@ -62,7 +62,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.bus-ans.com/',
-            staging: 'https://ans-web.asmat.app/'
+            staging: 'https://dev.web.ans.asmat.app/'
         },
         locator: Ans, 
         data: testData.Ans, 
@@ -74,7 +74,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://web.aotransportbus.com/',
-            staging: 'https://aoshuttle-web.asmat.app/'
+            staging: 'https://dev.web.aoshuttle.asmat.app/'
         },
         locator: Aoshuttle, 
         data: testData.Aoshuttle, 
@@ -86,7 +86,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.aragontrans.com/',
-            staging: 'https://aragon-web.asmat.app/'
+            staging: 'https://dev.web.aragon.asmat.app/'
         },
         locator: Aragon, 
         data: testData.Aragon, 
@@ -98,7 +98,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.bus-ats.id/',
-            staging: 'https://ats-web.asmat.app/'
+            staging: 'https://dev.web.ats.asmat.app/'
         },
         locator: Ats, 
         data: testData.Ats, 
@@ -110,7 +110,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.banyumilitravel.id/',
-            staging: 'https://banyumili-web.asmat.app/'
+            staging: 'https://dev.web.banyumili.asmat.app/'
         },
         locator: Banyumili, 
         data: testData.Banyumili, 
@@ -122,7 +122,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.baraya-travel.com/',
-            staging: 'https://baraya-web.asmat.app/'
+            staging: 'https://dev.web.baraya.asmat.app/'
         },
         locator: Baraya, 
         data: testData.Baraya, 
@@ -134,7 +134,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.besttrans.co.id/',
-            staging: 'https://besttrans-web.asmat.app/'
+            staging: 'https://dev.web.besttrans.asmat.app/'
         },
         locator: Besttrans, 
         data: testData.Besttrans, 
@@ -146,7 +146,7 @@ export const sites = [
         enabled: true, 
         urls: {
             production: 'https://www.booking.binasarana.co.id/',
-            staging: 'https://binasarana-web.asmat.app/'
+            staging: 'https://dev.web.binasarana.asmat.app/'
         },
         locator: Binasarana, 
         data: testData.Binasarana, 
@@ -158,7 +158,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.btmshuttle.id/',
-            staging: 'https://btm-web.asmat.app/'
+            staging: 'https://dev.web.btm.asmat.app/'
         },
         locator: Btm, 
         data: testData.Btm, 
@@ -170,7 +170,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.cgtrans.co.id/',
-            staging: 'https://cgtrans-web.asmat.app/'
+            staging: 'https://dev.web.cgtrans.asmat.app/'
         },
         locator: Cgtrans, 
         data: testData.Cgtrans, 
@@ -182,7 +182,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.ctu-shuttle.com/',
-            staging: 'https://ctu-web.asmat.app/'
+            staging: 'https://dev.web.ctu.asmat.app/'
         },
         locator: Ctu, 
         data: testData.Ctu, 
@@ -194,7 +194,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.daytrans.co.id/',
-            staging: 'https://daytrans-web.asmat.app/'
+            staging: 'https://dev.web.daytrans.asmat.app/'
         },
         locator: Daytrans, 
         data: testData.Daytrans, 
@@ -206,7 +206,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.graciasshuttle.co.id/',
-            staging: 'https://gracias-web.asmat.app/'
+            staging: 'https://dev.web.gracias.asmat.app/'
         },
         locator: Gracias, 
         data: testData.Gracias, 
@@ -218,7 +218,7 @@ export const sites = [
         enabled: true, 
         urls: {
             production: 'https://www.harumbsi.com/',
-            staging: 'https://harumbsi-web.asmat.app/'
+            staging: 'https://dev.web.harumbsi.asmat.app/'
         },
         locator: Harumbsi, 
         data: testData.Harumbsi, 
@@ -230,7 +230,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.jackalholidays.com/',
-            staging: 'https://jackal-web.asmat.app/'
+            staging: 'https://dev.web.jackal.asmat.app/'
         },
         locator: Jackal, 
         data: testData.Jackal, 
@@ -242,7 +242,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.joglosemarbus.com/',
-            staging: 'https://joglosemar-web.asmat.app/'
+            staging: 'https://dev.web.joglosemar.asmat.app/'
         },
         locator: Joglosemar, 
         data: testData.Joglosemar, 
@@ -254,7 +254,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.kpmtrans.id/',
-            staging: 'https://kpm-web.asmat.app/'
+            staging: 'https://dev.web.kpmtrans.asmat.app/'
         },
         locator: Kpm, 
         data: testData.Kpm, 
@@ -266,7 +266,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.krakaline.com/',
-            staging: 'https://krakaline-web.asmat.app/'
+            staging: 'https://dev.web.krakaline.asmat.app/'
         },
         locator: Krakaline, 
         data: testData.Krakaline, 
@@ -278,7 +278,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.kruzz.id/',
-            staging: 'https://kruzz-web.asmat.app/'
+            staging: 'https://dev.web.kruzz.asmat.app/'
         },
         locator: Kruzz, 
         data: testData.Kruzz, 
@@ -290,7 +290,7 @@ export const sites = [
         enabled: true,  
         urls: {
             production: 'https://www.kupuayutrans.com/',
-            staging: 'https://kka-web.asmat.app/'
+            staging: 'https://dev.web.kka.asmat.app/'
         },
         locator: Kupuayu, 
         data: testData.Kupuayu, 
@@ -302,7 +302,7 @@ export const sites = [
         enabled: false,
         urls: {
             production: 'https://www.maritatrans.com/',
-            staging: 'https://marita-web.asmat.app/'
+            staging: 'https://dev.web.marita.asmat.app/'
         },
         locator: Marita, 
         data: testData.Marita, 
@@ -314,7 +314,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.minangaexpress.id/',
-            staging: 'https://minanga-web.asmat.app/'
+            staging: 'https://dev.web.minanga.asmat.app/'
         },
         locator: Minanga, 
         data: testData.Minanga, 
@@ -326,7 +326,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.mrtrans.co.id/',
-            staging: 'https://mrtrans-web.asmat.app/'
+            staging: 'https://dev.web.mrtrans.asmat.app/'
         },
         locator: Mrtrans, 
         data: testData.Mrtrans, 
@@ -338,7 +338,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.mstrans.id/',
-            staging: 'https://mstrans-web.asmat.app/'
+            staging: 'https://dev.web.mstrans.asmat.app/'
         },
         locator: Mstrans, 
         data: testData.Mstrans, 
@@ -350,7 +350,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.namasteshuttle.com/',
-            staging: 'https://namaste-web.asmat.app/'
+            staging: 'https://dev.web.namaste.asmat.app/'
         },
         locator: Namaste, 
         data: testData.Namaste, 
@@ -362,7 +362,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.pelitamas.id/',
-            staging: 'https://pelitamas-web.asmat.app/'
+            staging: 'https://dev.web.pelitamas.asmat.app/'
         },
         locator: Pelitamas, 
         data: testData.Pelitamas, 
@@ -374,7 +374,7 @@ export const sites = [
         enabled: true, 
         urls: {
             production: 'https://shuttle.putraremaja.co.id/',
-            staging: 'https://putraremaja-web.asmat.app/'
+            staging: 'https://dev.web.putraremaja.asmat.app/'
         },
         locator: Putraremaja, 
         data: testData.Putraremaja, 
@@ -386,7 +386,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.raputri.com/',
-            staging: 'https://raputri-web.asmat.app/'
+            staging: 'https://dev.web.raputri.asmat.app/'
         },
         locator: Raputri, 
         data: testData.Raputri, 
@@ -398,7 +398,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.riyantransport.com/',
-            staging: 'https://riyantrans-web.asmat.app/'
+            staging: 'https://dev.web.riyantrans.asmat.app/'
         },
         locator: Riyan, 
         data: testData.Riyan, 
@@ -410,7 +410,7 @@ export const sites = [
         enabled: true,  
         urls: {
             production: 'https://www.royalkencanabus.id/',
-            staging: 'https://royalkencana-web.asmat.app/'
+            staging: 'https://dev.web.royalkencana.asmat.app/'
         },
         locator: Royalkencana, 
         data: testData.Royalkencana, 
@@ -422,7 +422,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://booking.sabilashuttle.co.id/',
-            staging: 'https://sabila-web.asmat.app/'
+            staging: 'https://dev.web.sabila.asmat.app/'
         },
         locator: Sabila, 
         data: testData.Sabila, 
@@ -434,7 +434,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://booking.sadyatrans.com/',
-            staging: 'https://sadyatrans-web.asmat.app/'
+            staging: 'https://dev.web.sadyatrans.asmat.app/'
         },
         locator: Sadya, 
         data: testData.Sadya, 
@@ -446,7 +446,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.sariharum.com/',
-            staging: 'https://sariharum-web.asmat.app/'
+            staging: 'https://dev.web.sariharum.asmat.app/'
         },
         locator: Sariharum, 
         data: testData.Sariharum, 
@@ -458,7 +458,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.selamattrans.co.id/reservasi',
-            staging: 'https://selamat-web.asmat.app/reservasi'
+            staging: 'https://dev.web.selamat.asmat.app/'
         },
         locator: Selamat, 
         data: testData.Selamat, 
@@ -470,7 +470,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.semerutrans.com/',
-            staging: 'https://semeru-web.asmat.app/'
+            staging: 'https://dev.web.semeru.asmat.app/'
         },
         locator: Semeru, 
         data: testData.Semeru, 
@@ -482,7 +482,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.sunjayaabadi.com/',
-            staging: 'https://sunjaya-web.asmat.app/'
+            staging: 'https://dev.web.sunjaya.asmat.app/'
         },
         locator: Sunjaya, 
         data: testData.Sunjaya, 
@@ -494,7 +494,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.transkitashuttle.co.id/',
-            staging: 'https://transkita-web.asmat.app/'
+            staging: 'https://dev.web.transkita.asmat.app/'
         },
         locator: Transkita, 
         data: testData.Transkita, 
@@ -506,7 +506,7 @@ export const sites = [
         enabled: true, 
         urls: {
             production: 'https://www.trikusuma.com/',
-            staging: 'https://trikusuma-web.asmat.app/'
+            staging: 'https://dev.web.trikusuma.asmat.app/'
         },
         locator: Trikusuma, 
         data: testData.Trikusuma, 
@@ -518,7 +518,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.wbtrans.id/',
-            staging: 'https://wbtrans-web.asmat.app/'
+            staging: 'https://dev.web.wbtrans.asmat.app/'
         },
         locator: Wbtrans, 
         data: testData.Wbtrans, 
@@ -530,7 +530,7 @@ export const sites = [
         enabled: true, 
         urls: {
             production: 'https://www.buswisatakomodo.com/',
-            staging: 'https://wiskom-web.asmat.app/'
+            staging: 'https://dev.web.wiskom.asmat.app/'
         },
         locator: Wisatakomodo, 
         data: testData.Wisatakomodo, 
@@ -542,7 +542,7 @@ export const sites = [
         enabled: true,  
         urls: {
             production: 'https://www.yantigroup.com/',
-            staging: 'https://yantigroup-web.asmat.app/'
+            staging: 'https://dev.web.yantigroup.asmat.app/'
         },
         locator: Yantigroup, 
         data: testData.Yantigroup, 
@@ -554,7 +554,7 @@ export const sites = [
         enabled: true,
         urls: {
             production: 'https://www.ztrans.id/',
-            staging: 'https://ztrans-web.asmat.app/'
+            staging: 'https://dev.web.ztrans.asmat.app/'
         },
         locator: Ztrans, 
         data: testData.Ztrans, 
