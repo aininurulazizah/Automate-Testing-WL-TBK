@@ -57,18 +57,17 @@ function getRerunTests(data) {
 
             if (!lastResult) continue;
 
-            let status = lastResult.status;
-
-            const hasPassed = results.some(
-                result => result.status === 'passed'
-            );
-
-            const hasFailed = results.some(
-                result => result.status !== 'passed'
-            );
-
-            if (results.length > 1 && hasPassed && hasFailed) {
+            const hasPassed = results.some(result => result.status === 'passed');
+            const hasNonPassed = results.some(result => result.status !== 'passed');
+            
+            let status;
+            
+            if (results.length > 1 && hasPassed && hasNonPassed) {
                 status = 'flaky';
+            } else if (hasPassed) {
+                status = 'passed';
+            } else {
+                status = 'failed';
             }
 
             const bookingCodeAttachment = lastResult.attachments?.find(
