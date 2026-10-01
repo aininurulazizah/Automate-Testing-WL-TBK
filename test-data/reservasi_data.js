@@ -505,11 +505,12 @@ export const testData = {
     Krakaline: {
         Keberangkatan: "BAROS",
         Tujuan: "AREA FATMAWATI",
-        TanggalPergi: getTanggalCustom({
-            selang_bulan: 1,
-            kurang_hari: 7,
-            customMonthToIndo: true
-        }),
+        // TanggalPergi: getTanggalCustom({
+        //     selang_bulan: 1,
+        //     kurang_hari: 7,
+        //     customMonthToIndo: true
+        // }),
+        TanggalPergi: "Oktober 15, 2026",
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 1,
