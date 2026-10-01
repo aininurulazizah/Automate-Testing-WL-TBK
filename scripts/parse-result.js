@@ -74,10 +74,10 @@ console.log('✅ dashboard-data.json berhasil dibuat');
 
 function walkSuites(suites) {
   for (const suite of suites) {
-    
+
     if (suite.specs) {
       for (const spec of suite.specs) {
-        
+
         const test = spec.tests?.[0];
 
         if (!test) continue;
@@ -87,7 +87,7 @@ function walkSuites(suites) {
         if (results.length === 0) continue;
 
         const lastResult = results.at(-1);
-        
+
         const status = getTestStatus(results);
 
         summary.total++;
@@ -122,12 +122,9 @@ function walkSuites(suites) {
           // Booking code dicari dari semua attempt/retry
           bookingCode: getBookingCodeFromResults(results),
 
-          error: status === 'passed'
+          error: status === 'passed' || status === 'flaky'
             ? null
-            : {
-                summary: cleanAnsi(lastResult.error?.message),
-                detail: cleanAnsi(lastResult.errors?.at(-1)?.message)
-              }
+            : getErrorFromResult(lastResult)
         });
       }
     }
@@ -140,12 +137,12 @@ function walkSuites(suites) {
 
 function getTestStatus(results) {
   const hasPassed = results.some(result => result.status === 'passed');
-  const hasFailed = results.some(result => result.status !== 'passed');
+  const hasNonPassed = results.some(result => result.status !== 'passed');
 
   const lastStatus = results.at(-1)?.status ?? 'failed';
 
   // Pernah gagal lalu berhasil (retry)
-  if (results.length > 1 && hasPassed && hasFailed) {
+  if (results.length > 1 && hasPassed && hasNonPassed) {
     return 'flaky';
   }
 
@@ -163,6 +160,66 @@ function getTestStatus(results) {
   return 'failed';
 }
 
+function getErrorFromResult(result) {
+  if (!result) return null;
+
+  const errors = result.errors ?? [];
+
+  // Ambil semua error dari result terakhir
+  const messages = errors
+    .map(error => cleanErrorMessage(error.message))
+    .filter(Boolean);
+
+  // Fallback kalau errors kosong tetapi error.message tersedia
+  if (messages.length === 0 && result.error?.message) {
+    const message = cleanErrorMessage(result.error.message);
+
+    return message
+      ? {
+          summary: getErrorSummary(message),
+          detail: message
+        }
+      : null;
+  }
+
+  if (messages.length === 0) {
+    return null;
+  }
+
+  const detail = messages.join('\n\n');
+
+  return {
+    summary: getErrorSummary(messages[0]),
+    detail
+  };
+}
+
+function getErrorSummary(message) {
+  if (!message) return null;
+
+  const lines = message
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean);
+
+  // Ambil bagian error utama.
+  // Biasanya baris pertama sudah cukup.
+  return lines[0] || null;
+}
+
+function cleanErrorMessage(text) {
+  if (!text) return null;
+
+  return text
+    .replace(/\u001b\[[0-9;]*m/g, '')
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .map(line => line.trimEnd())
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 function formatDuration(ms) {
   const totalSeconds = Math.floor(ms / 1000);
 
@@ -171,12 +228,6 @@ function formatDuration(ms) {
   const seconds = String(totalSeconds % 60).padStart(2, '0');
 
   return `${hours}:${minutes}:${seconds}`;
-}
-
-function cleanAnsi(text) {
-  if (!text) return null;
-
-  return text.replace(/\u001b\[[0-9;]*m/g,'');
 }
 
 function getBookingCodeFromResults(results) {
@@ -199,5 +250,10 @@ function getBookingCode(attachments) {
 
   if (!attachment?.body) return null;
 
-  return Buffer.from(attachment.body, 'base64').toString('utf8');
+  try {
+    return Buffer.from(attachment.body, 'base64').toString('utf8');
+  } catch {
+    return null;
+  }
+
 }
