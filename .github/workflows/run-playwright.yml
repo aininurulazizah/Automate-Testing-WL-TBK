@@ -67,7 +67,9 @@ jobs:
 
           CMD="$CMD --reporter=json --project=chromium"
 
-          echo "Rerun mode: ${{ github.event.inputs.rerun }}"
+          echo "Rerun mode: ${{ github.event.inputs.rerun }}" 
+          echo "Execution date: ${{ github.event.inputs.execution_date }}" 
+          echo "Keyword: ${{ github.event.inputs.keyword }}" 
           echo "Running: $CMD"
 
           eval "$CMD" > reports/result.json || true
