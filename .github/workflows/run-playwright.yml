@@ -163,78 +163,76 @@ jobs:
       #   run: |
       #     npm run copy-dashboard -- dashboard
 
-      # - name: Check if last day of month
+      # - name: Check if first day of month
       #   id: month_check
       #   run: |
       #     TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
-      #     TOMORROW=$(TZ=Asia/Jakarta date -d "$TODAY + 1 day" +%Y-%m-%d)
-      #     TODAY_MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
-      #     TOMORROW_MONTH=$(TZ=Asia/Jakarta date -d "$TOMORROW" +%Y-%m)
-
+      #     DAY=$(TZ=Asia/Jakarta date +%d)
+      
       #     echo "Today: $TODAY"
-      #     echo "Tomorrow: $TOMORROW"
-      #     echo "This month: $TODAY_MONTH"
-
-      #     if [ "$TODAY_MONTH" != "$TOMORROW_MONTH" ]; then
-      #       echo "is_month_end=true" >> "$GITHUB_OUTPUT"
-      #       echo "Today is the LAST DAY of the month."
+      #     echo "Day: $DAY"
+      
+      #     if [ "$DAY" = "01" ]; then
+      #       echo "is_month_start=true" >> "$GITHUB_OUTPUT"
+      #       echo "Today is the FIRST DAY of the month."
       #     else
-      #       echo "is_month_end=false" >> "$GITHUB_OUTPUT"
-      #       echo "Today is NOT the last day of the month."
+      #       echo "is_month_start=false" >> "$GITHUB_OUTPUT"
+      #       echo "Today is NOT the first day of the month."
       #     fi
 
       # - name: Create Monthly Execution ZIP
-      #   if: steps.month_check.outputs.is_month_end == 'true'
+      #   if: steps.month_check.outputs.is_month_start == 'true'
       #   id: monthly_zip
       #   run: |
       #     TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
-      #     MONTH=$(TZ=Asia/Jakarta date -d "$TODAY" +%Y-%m)
-
+      #     MONTH=$(TZ=Asia/Jakarta date -d "$TODAY - 1 month" +%Y-%m)
+      
       #     ZIP_NAME="monthly-executions-${MONTH}.zip"
-
+      
+      #     echo "Today: $TODAY"
       #     echo "Creating monthly archive for: $MONTH"
       #     echo "ZIP name: $ZIP_NAME"
-
+      
       #     mkdir -p monthly-archive
-
+      
       #     find dashboard/src/data/executions \
       #       -maxdepth 1 \
       #       -type f \
       #       -name "${MONTH}-*.json" \
       #       -exec cp {} monthly-archive/ \;
-
+      
       #     echo ""
       #     echo "Files included in monthly archive:"
       #     ls -lah monthly-archive
-
+      
       #     FILE_COUNT=$(find monthly-archive \
       #       -type f \
       #       -name "*.json" \
       #       | wc -l)
-
+      
       #     echo ""
       #     echo "Total execution files: $FILE_COUNT"
-
+      
       #     if [ "$FILE_COUNT" -eq 0 ]; then
       #       echo "ERROR: No execution files found for ${MONTH}"
       #       exit 1
       #     fi
-
+      
       #     zip -j "$ZIP_NAME" monthly-archive/*.json
-
+      
       #     echo ""
       #     echo "Monthly ZIP created:"
       #     ls -lh "$ZIP_NAME"
-
+      
       #     echo "zip_name=$ZIP_NAME" >> "$GITHUB_OUTPUT"
 
-      # - name: Upload Monthly Execution ZIP 
-      #   if: steps.month_check.outputs.is_month_end == 'true' 
-      #   id: upload_monthly_archive 
-      #   uses: actions/upload-artifact@v4 
-      #   with: 
-      #     name: ${{ steps.monthly_zip.outputs.zip_name }} 
-      #     path: ${{ steps.monthly_zip.outputs.zip_name }} 
+      # - name: Upload Monthly Execution ZIP
+      #   if: steps.month_check.outputs.is_month_start == 'true'
+      #   id: upload_monthly_archive
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ steps.monthly_zip.outputs.zip_name }}
+      #     path: ${{ steps.monthly_zip.outputs.zip_name }}
       #     retention-days: 90
 
       # - name: Build Telegram Report Notification
@@ -355,36 +353,37 @@ jobs:
       #     EOF
 
       # - name: Build Telegram Backup Archive Notification
-      #   env: 
-      #     IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
+      #   env:
+      #     IS_MONTH_START: ${{ steps.month_check.outputs.is_month_start }}
       #     MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
       #   run: |
       #     node <<'EOF'
       #     const fs = require('fs');
-
-      #     const isMonthEnd = process.env.IS_MONTH_END === 'true'; 
-      #     const artifactId = process.env.MONTHLY_ARTIFACT_ID; 
-      #     let monthlyArchiveSection = ''; 
-          
-      #     if ( isMonthEnd && artifactId ) { 
-      #       const monthlyArchiveUrl = 
-      #         `${process.env.GITHUB_SERVER_URL}/` + 
-      #         `${process.env.GITHUB_REPOSITORY}/actions/runs/` + 
-      #         `${process.env.GITHUB_RUN_ID}/artifacts/` + 
-      #         `${artifactId}`; 
-              
+      
+      #     const isMonthStart = process.env.IS_MONTH_START === 'true';
+      #     const artifactId = process.env.MONTHLY_ARTIFACT_ID;
+      
+      #     let monthlyArchiveSection = '';
+      
+      #     if (isMonthStart && artifactId) {
+      #       const monthlyArchiveUrl =
+      #         `${process.env.GITHUB_SERVER_URL}/` +
+      #         `${process.env.GITHUB_REPOSITORY}/actions/runs/` +
+      #         `${process.env.GITHUB_RUN_ID}/artifacts/` +
+      #         `${artifactId}`;
+      
       #       monthlyArchiveSection = `
-            
-      #     📦 Monthly Backup Archive 
-      #     ${monthlyArchiveUrl} 
+      
+      #     📦 Monthly Backup Archive
+      #     ${monthlyArchiveUrl}
       #     `;
       #     }
-
+      
       #     const report =
       #       `
       #     ${monthlyArchiveSection}
       #     `;
-
+      
       #     fs.appendFileSync(
       #       process.env.GITHUB_ENV,
       #       `TELEGRAM_BACKUP_REPORT<<EOF\n${report}\nEOF\n`
@@ -399,7 +398,7 @@ jobs:
       #       --data-urlencode "text=$TELEGRAM_REPORT"
 
       # - name: Send Telegram Backup Archive Notification
-      #   if: steps.month_check.outputs.is_month_end == 'true'
+      #   if: steps.month_check.outputs.is_month_start == 'true'
       #   run: |
       #     curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
       #       -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
