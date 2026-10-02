@@ -116,13 +116,13 @@ export class Kupuayu {
     async isiKeberangkatan(value) {
         await this.keberangkatan_field.click();
         await this.dropdown_keberangkatan.locator(`div.ss-option:text-is("${value}")`).click();
-        await this.page.locator('p:has-text("Asal")').click();
+        await this.page.locator('p:text-is("Asal")').click();
     }
 
     async isiTujuan(value) {
         await this.tujuan_field.click();
         await this.dropdown_tujuan.locator(`div.ss-option:text-is("${value}")`).click();
-        await this.page.locator('p:has-text("Tujuan")').click();
+        await this.page.locator('span[data-i18n="bookingDestination"]').click();
     }
 
     async isiTanggalPergi(value) {
