@@ -31,6 +31,11 @@ const historyDestinationDir = path.join(
   'src/data/executions'
 );
 
+const publicExecutionsDestinationDir = path.join(
+  dashboardRoot,
+  'public/executions'
+);
+
 try {
   if (!fs.existsSync(source)) {
     throw new Error(`Source file tidak ditemukan: ${source}`);
@@ -51,6 +56,7 @@ try {
 
   // Pastikan folder executions tersedia
   fs.mkdirSync(historyDestinationDir, { recursive: true });
+  fs.mkdirSync(publicExecutionsDestinationDir, { recursive: true });
 
 
   // Update dashboard-data.json
@@ -62,7 +68,7 @@ try {
 
 
   // Simpan history berdasarkan tanggal
-
+  
   const historyDestination = path.join(
     historyDestinationDir,
     `${executionDate}.json`
@@ -73,12 +79,26 @@ try {
     historyDestination
   );
 
+  // Simpan juga sebagai static file untuk polling rerun
+  const publicExecutionDestination = path.join(
+    publicExecutionsDestinationDir,
+    `${executionDate}.json`
+  );
+
+  fs.copyFileSync(
+    source,
+    publicExecutionDestination
+  );
+
   console.log('✅ Dashboard data berhasil diupdate.');
   console.log(
     `   Current: ${currentDataDestination}`
   );
   console.log(
     `   History: ${historyDestination}`
+  );
+  console.log(
+    `   Public: ${publicExecutionDestination}`
   );
 
 } catch (err) {
