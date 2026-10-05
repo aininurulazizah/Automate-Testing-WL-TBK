@@ -185,11 +185,11 @@ export class Joglosemar {
         const harga_container = await first_jadwal.locator('div.harga');
         let harga_tiket;
 
-        // if (await harga_container.locator('del').count() > 0) { // kalau ada promo
-        //     harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
-        // } else {
+        if (await harga_container.locator('del').count() > 0) { // kalau ada promo
+            harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
+        } else {
             harga_tiket = await harga_container.locator('p').innerText();
-        // }
+        }
 
         await first_jadwal.locator('button:has-text("Pilih")').first().click();
         return harga_tiket;
@@ -202,11 +202,11 @@ export class Joglosemar {
         const harga_container = await first_jadwal.locator('div.harga');
         let harga_tiket;
 
-        // if (await harga_container.locator('del').count() > 0) { // kalau ada promo
-        //     harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
-        // } else {
+        if (await harga_container.locator('del').count() > 0) { // kalau ada promo
+            harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
+        } else {
             harga_tiket = await harga_container.locator('p').innerText();
-        // }
+        }
         
         await first_jadwal.locator('button:has-text("Pilih")').first().click();
         return harga_tiket;
