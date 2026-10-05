@@ -37,6 +37,8 @@ export class Jackal{
         // Payment Confirmation Page
         this.detail_bayar_card = page.locator('table.tbl-harga');
         this.check_ketentuan_btn = page.locator('label[for="ketentuan"]');
+        this.check_insurance = page.locator('#check_asuransi');
+        this.total_insurance_label = page.locator('#insurance-total');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Confirm Reservation")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-footer button:has-text("Yes, Continue")');
 
@@ -265,6 +267,12 @@ export class Jackal{
             case("payment-page") :
                 const actual_total_tiket_payment = this.normalizeRupiah(await this.detail_bayar_card.locator('td:has-text("Total Bayar") + td').innerText());
 
+                const asuransiChecked = await this.isAsuransiChecked(await this.check_insurance);
+
+                if (asuransiChecked) {
+                    expected_total_tiket += this.normalizeRupiah(await this.total_insurance_label.innerText());
+                }
+
                 expect(actual_total_tiket_payment).toBe(expected_total_tiket);
 
                 return expected_total_tiket;
@@ -277,6 +285,10 @@ export class Jackal{
                 return expected_total_tiket;
                 break;
         }
+    }
+
+    async isAsuransiChecked(element) {
+        return await element.isChecked();
     }
 
     async klikBayar() {

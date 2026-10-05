@@ -18,6 +18,13 @@ const executionFile = path.join(
     `${executionDate}.json`
 );
 
+const currentDashboardFile = path.join(
+    'dashboard',
+    'src',
+    'data',
+    'dashboard-data.json'
+);
+
 if (!fs.existsSync(executionFile)) {
     console.error(`Execution file tidak ditemukan: ${executionFile}`);
     process.exit(1);
@@ -50,18 +57,17 @@ function getRerunTests(data) {
 
             if (!lastResult) continue;
 
-            let status = lastResult.status;
+            const hasPassed = results.some(result => result.status === 'passed');
+            const hasNonPassed = results.some(result => result.status !== 'passed');
 
-            const hasPassed = results.some(
-                result => result.status === 'passed'
-            );
+            let status;
 
-            const hasFailed = results.some(
-                result => result.status !== 'passed'
-            );
-
-            if (results.length > 1 && hasPassed && hasFailed) {
+            if (results.length > 1 && hasPassed && hasNonPassed) {
                 status = 'flaky';
+            } else if (hasPassed) {
+                status = 'passed';
+            } else {
+                status = 'failed';
             }
 
             const bookingCodeAttachment = lastResult.attachments?.find(
@@ -80,14 +86,10 @@ function getRerunTests(data) {
                 }
             }
 
-            const error = lastResult.errors?.length
-                ? {
-                    summary: lastResult.errors[0].message || null,
-                    detail: lastResult.errors
-                        .map(error => error.message || '')
-                        .join('\n\n')
-                }
-                : null;
+            const error =
+                status === 'passed' || status === 'flaky'
+                    ? null
+                    : getErrorFromResult(lastResult);
 
             tests.push({
                 title: spec.title,
@@ -102,6 +104,60 @@ function getRerunTests(data) {
     }
 
     return tests;
+}
+
+function getErrorFromResult(result) {
+    if (!result) return null;
+
+    const errors = result.errors || [];
+
+    const messages = errors
+        .map(error => cleanErrorMessage(error.message))
+        .filter(Boolean);
+
+    // Fallback kalau errors kosong tetapi error.message tersedia
+    if (messages.length === 0 && result.error?.message) {
+        const message = cleanErrorMessage(result.error.message);
+
+        return message
+            ? {
+                summary: getErrorSummary(message),
+                detail: message
+            }
+            : null;
+    }
+
+    if (messages.length === 0) {
+        return null;
+    }
+
+    const detail = messages.join('\n\n');
+
+    return {
+        summary: getErrorSummary(messages[0]),
+        detail
+    };
+}
+
+function getErrorSummary(message) {
+    if (!message) return null;
+
+    const lines = message.split('\n').map(line => line.trim()).filter(Boolean);
+
+    return lines[0] || null;
+}
+
+function cleanErrorMessage(text) {
+    if (!text) return null;
+
+    return text
+        .replace(/\u001b\[[0-9;]*m/g, '')
+        .replace(/\r\n/g, '\n')
+        .split('\n')
+        .map(line => line.trimEnd())
+        .join('\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
 }
 
 const rerunTests = getRerunTests(rerunData);
@@ -172,6 +228,11 @@ executionData.summary.skipped = skipped;
 
 fs.writeFileSync(
     executionFile,
+    JSON.stringify(executionData, null, 2) + '\n'
+);
+
+fs.writeFileSync(
+    currentDashboardFile,
     JSON.stringify(executionData, null, 2) + '\n'
 );
 

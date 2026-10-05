@@ -185,11 +185,11 @@ export class Joglosemar {
         const harga_container = await first_jadwal.locator('div.harga');
         let harga_tiket;
 
-        if (await harga_container.locator('del').count() > 0) { // kalau ada promo
-            harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
-        } else {
+        // if (await harga_container.locator('del').count() > 0) { // kalau ada promo
+        //     harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
+        // } else {
             harga_tiket = await harga_container.locator('p').innerText();
-        }
+        // }
 
         await first_jadwal.locator('button:has-text("Pilih")').first().click();
         return harga_tiket;
@@ -202,11 +202,11 @@ export class Joglosemar {
         const harga_container = await first_jadwal.locator('div.harga');
         let harga_tiket;
 
-        if (await harga_container.locator('del').count() > 0) { // kalau ada promo
-            harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
-        } else {
+        // if (await harga_container.locator('del').count() > 0) { // kalau ada promo
+        //     harga_tiket = await harga_container.locator('del').innerText(); // ambil harga sebelum promo
+        // } else {
             harga_tiket = await harga_container.locator('p').innerText();
-        }
+        // }
         
         await first_jadwal.locator('button:has-text("Pilih")').first().click();
         return harga_tiket;
@@ -326,8 +326,8 @@ export class Joglosemar {
                     const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.page.locator('.display-price-seat-selected:not(#hargatot)').innerText());
                     expect(actual_total_tiket_seat_1).toBe(expected_total_tiket);
     
-                    const diskon = this.normalizeRupiah(await this.diskon_label_seat_page.innerText());
-                    expected_total_tiket -= diskon;
+                    // const diskon = this.normalizeRupiah(await this.diskon_label_seat_page.innerText());
+                    // expected_total_tiket -= diskon;
                     const actual_total_tiket_seat_2 = this.normalizeRupiah(await this.page.locator('span#hargatot').innerText());
                     expect(actual_total_tiket_seat_2).toBe(expected_total_tiket);
                 // }

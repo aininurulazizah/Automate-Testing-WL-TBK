@@ -40,6 +40,7 @@ export class Baraya {
         this.tab_plg = page.locator('a:has-text("Pulang")');
         this.kursi_plg_tersedia = page.locator('div.seat-blank[onclick*="books_pp"]');
         this.diskon_label_seat_page = page.locator('p.totalDiskon');
+        this.biaya_layanan_label = page.locator('#biayalayanan');
         this.pembayaran_btn = page.locator('button:has-text("Pembayaran")');
 
         // Payment Confirmation Page
@@ -315,6 +316,10 @@ export class Baraya {
 
                 await this.page.waitForTimeout(1000);
 
+                if (await this.biaya_layanan_label.count() > 0) {
+                    expected_total_tiket += this.normalizeRupiah(await this.biaya_layanan_label.innerText());
+                }
+                
                 const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.page.locator('span.display-price-seat-selected').innerText());
                 
                 try {

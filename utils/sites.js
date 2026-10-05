@@ -46,562 +46,519 @@ import { testData } from "../test-data/reservasi_data";
 
 export const sites = [
     {
-        tag: '@adibuzz',  
+        tag: '@adibuzz',
         enabled: true,
         urls: {
             production: 'https://www.adi-buzz.com/',
-            staging: 'https://dev.web.adibuzz.asmat.app/',
-            // staging: 'https://adibuzz-web.asmat.app/'
+            staging: 'https://dev.web.adibuzz.asmat.app/'
         },
-        locator: Adibuzz, 
-        data: testData.Adibuzz, 
-        roundTrip: true, 
+        locator: Adibuzz,
+        data: testData.Adibuzz,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@ans',  
+        tag: '@ans',
         enabled: true,
         urls: {
             production: 'https://www.bus-ans.com/',
-            staging: 'https://dev.web.ans.asmat.app/',
-            // staging: 'https://ans-web.asmat.app/'
+            staging: 'https://dev.web.ans.asmat.app/'
         },
-        locator: Ans, 
-        data: testData.Ans, 
-        roundTrip: true, 
+        locator: Ans,
+        data: testData.Ans,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@aoshuttle',  
+        tag: '@aoshuttle',
         enabled: true,
         urls: {
             production: 'https://web.aotransportbus.com/',
-            staging: 'https://dev.web.aoshuttle.asmat.app/',
-            // staging: 'https://aoshuttle-web.asmat.app/'
+            staging: 'https://dev.web.aoshuttle.asmat.app/'
         },
-        locator: Aoshuttle, 
-        data: testData.Aoshuttle, 
-        roundTrip: true, 
+        locator: Aoshuttle,
+        data: testData.Aoshuttle,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@aragon',  
+        tag: '@aragon',
         enabled: true,
         urls: {
             production: 'https://www.aragontrans.com/',
-            staging: 'https://dev.web.aragon.asmat.app/',
-            // staging: 'https://aragon-web.asmat.app/'
+            staging: 'https://dev.web.aragon.asmat.app/'
         },
-        locator: Aragon, 
-        data: testData.Aragon, 
-        roundTrip: false, 
+        locator: Aragon,
+        data: testData.Aragon,
+        roundTrip: false,
         connectingRes: false
     },
     {
-        tag: '@ats',  
+        tag: '@ats',
         enabled: true,
         urls: {
             production: 'https://www.bus-ats.id/',
-            staging: 'https://dev.web.ats.asmat.app/',
-            // staging: 'https://ats-web.asmat.app/'
+            staging: 'https://dev.web.ats.asmat.app/'
         },
-        locator: Ats, 
-        data: testData.Ats, 
-        roundTrip: true, 
+        locator: Ats,
+        data: testData.Ats,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@banyumili',  
+        tag: '@banyumili',
         enabled: true,
         urls: {
             production: 'https://www.banyumilitravel.id/',
-            staging: 'https://dev.web.banyumili.asmat.app/',
-            // staging: 'https://banyumili-web.asmat.app/'
+            staging: 'https://dev.web.banyumili.asmat.app/'
         },
-        locator: Banyumili, 
-        data: testData.Banyumili, 
-        roundTrip: true, 
+        locator: Banyumili,
+        data: testData.Banyumili,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@baraya',  
+        tag: '@baraya',
         enabled: true,
         urls: {
             production: 'https://www.baraya-travel.com/',
-            staging: 'https://dev.web.baraya.asmat.app/',
-            // staging: 'https://baraya-web.asmat.app/'
+            staging: 'https://dev.web.baraya.asmat.app/'
         },
-        locator: Baraya, 
-        data: testData.Baraya, 
-        roundTrip: true, 
+        locator: Baraya,
+        data: testData.Baraya,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@besttrans',  
+        tag: '@besttrans',
         enabled: true,
         urls: {
             production: 'https://www.besttrans.co.id/',
-            staging: 'https://dev.web.besttrans.asmat.app/',
-            // staging: 'https://besttrans-web.asmat.app/'
+            staging: 'https://dev.web.besttrans.asmat.app/'
         },
-        locator: Besttrans, 
-        data: testData.Besttrans, 
-        roundTrip: true, 
+        locator: Besttrans,
+        data: testData.Besttrans,
+        roundTrip: true,
         connectingRes: false
     },
     {
         tag: '@binasarana',
-        enabled: true, 
+        enabled: true,
         urls: {
             production: 'https://www.booking.binasarana.co.id/',
-            staging: 'https://dev.web.binasarana.asmat.app/',
-            // staging: 'https://binasarana-web.asmat.app/'
+            staging: 'https://dev.web.binasarana.asmat.app/'
         },
-        locator: Binasarana, 
-        data: testData.Binasarana, 
-        roundTrip: false, 
+        locator: Binasarana,
+        data: testData.Binasarana,
+        roundTrip: false,
         connectingRes: false
     },
-    {  
-        tag: '@btm',  
+    {
+        tag: '@btm',
         enabled: true,
         urls: {
             production: 'https://www.btmshuttle.id/',
-            staging: 'https://dev.web.btm.asmat.app/',
-            // staging: 'https://btm-web.asmat.app/'
+            staging: 'https://dev.web.btm.asmat.app/'
         },
-        locator: Btm, 
-        data: testData.Btm, 
-        roundTrip: false, 
+        locator: Btm,
+        data: testData.Btm,
+        roundTrip: false,
         connectingRes: true
     },
     {
-        tag: '@cgtrans', 
+        tag: '@cgtrans',
         enabled: true,
         urls: {
             production: 'https://www.cgtrans.co.id/',
-            staging: 'https://dev.web.cgtrans.asmat.app/',
-            // staging: 'https://cgtrans-web.asmat.app/'
+            staging: 'https://dev.web.cgtrans.asmat.app/'
         },
-        locator: Cgtrans, 
-        data: testData.Cgtrans, 
-        roundTrip: true, 
+        locator: Cgtrans,
+        data: testData.Cgtrans,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@ctu',  
+        tag: '@ctu',
         enabled: true,
         urls: {
             production: 'https://www.ctu-shuttle.com/',
-            staging: 'https://dev.web.ctu.asmat.app/',
-            // staging: 'https://ctu-web.asmat.app/'
+            staging: 'https://dev.web.ctu.asmat.app/'
         },
-        locator: Ctu, 
-        data: testData.Ctu, 
-        roundTrip: true, 
+        locator: Ctu,
+        data: testData.Ctu,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@daytrans', 
+        tag: '@daytrans',
         enabled: true,
         urls: {
             production: 'https://www.daytrans.co.id/',
-            staging: 'https://dev.web.daytrans.asmat.app/',
-            // staging: 'https://daytrans-web.asmat.app/'
+            staging: 'https://dev.web.daytrans.asmat.app/'
         },
-        locator: Daytrans, 
-        data: testData.Daytrans, 
-        roundTrip: false, 
+        locator: Daytrans,
+        data: testData.Daytrans,
+        roundTrip: false,
         connectingRes: true
     },
     {
-        tag: '@gracias', 
+        tag: '@gracias',
         enabled: true,
         urls: {
             production: 'https://www.graciasshuttle.co.id/',
-            staging: 'https://dev.web.gracias.asmat.app/',
-            // staging: 'https://gracias-web.asmat.app/'
+            staging: 'https://dev.web.gracias.asmat.app/'
         },
-        locator: Gracias, 
-        data: testData.Gracias, 
-        roundTrip: true, 
+        locator: Gracias,
+        data: testData.Gracias,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@harumbsi', 
-        enabled: true, 
+        tag: '@harumbsi',
+        enabled: true,
         urls: {
             production: 'https://www.harumbsi.com/',
-            staging: 'https://dev.web.harumbsi.asmat.app/',
-            // staging: 'https://harumbsi-web.asmat.app/'
+            staging: 'https://dev.web.harumbsi.asmat.app/'
         },
-        locator: Harumbsi, 
-        data: testData.Harumbsi, 
-        roundTrip: true, 
+        locator: Harumbsi,
+        data: testData.Harumbsi,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@jackal',  
+        tag: '@jackal',
         enabled: true,
         urls: {
             production: 'https://www.jackalholidays.com/',
-            staging: 'https://dev.web.jackal.asmat.app/',
-            // staging: 'https://jackal-web.asmat.app/'
+            staging: 'https://dev.web.jackal.asmat.app/'
         },
-        locator: Jackal, 
-        data: testData.Jackal, 
-        roundTrip: true, 
+        locator: Jackal,
+        data: testData.Jackal,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@joglosemar', 
+        tag: '@joglosemar',
         enabled: true,
         urls: {
             production: 'https://www.joglosemarbus.com/',
-            staging: 'https://dev.web.joglosemar.asmat.app/',
-            // staging: 'https://joglosemar-web.asmat.app/'
+            staging: 'https://dev.web.joglosemar.asmat.app/'
         },
-        locator: Joglosemar, 
-        data: testData.Joglosemar, 
-        roundTrip: true, 
+        locator: Joglosemar,
+        data: testData.Joglosemar,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@kpm', 
+        tag: '@kpm',
         enabled: true,
         urls: {
             production: 'https://www.kpmtrans.id/',
-            staging: 'https://dev.web.kpm.asmat.app/',
-            // staging: 'https://kpm-web.asmat.app/'
+            staging: 'https://dev.web.kpmtrans.asmat.app/'
         },
-        locator: Kpm, 
-        data: testData.Kpm, 
-        roundTrip: true, 
+        locator: Kpm,
+        data: testData.Kpm,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@krakaline',  
+        tag: '@krakaline',
         enabled: true,
         urls: {
             production: 'https://www.krakaline.com/',
-            staging: 'https://dev.web.krakaline.asmat.app/',
-            // staging: 'https://krakaline-web.asmat.app/'
+            staging: 'https://dev.web.krakaline.asmat.app/'
         },
-        locator: Krakaline, 
-        data: testData.Krakaline, 
-        roundTrip: true, 
+        locator: Krakaline,
+        data: testData.Krakaline,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@kruzz',  
+        tag: '@kruzz',
         enabled: true,
         urls: {
             production: 'https://www.kruzz.id/',
-            staging: 'https://dev.web.kruzz.asmat.app/',
-            // staging: 'https://kruzz-web.asmat.app/'
+            staging: 'https://dev.web.kruzz.asmat.app/'
         },
-        locator: Kruzz, 
-        data: testData.Kruzz, 
-        roundTrip: true, 
+        locator: Kruzz,
+        data: testData.Kruzz,
+        roundTrip: true,
         connectingRes: true
     },
     {
         tag: '@kupuayu',
-        enabled: true,  
+        enabled: true,
         urls: {
             production: 'https://www.kupuayutrans.com/',
-            staging: 'https://dev.web.kka.asmat.app/',
-            // staging: 'https://kka-web.asmat.app/'
+            staging: 'https://dev.web.kka.asmat.app/'
         },
-        locator: Kupuayu, 
-        data: testData.Kupuayu, 
-        roundTrip: true, 
+        locator: Kupuayu,
+        data: testData.Kupuayu,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@marita',  
+        tag: '@marita',
         enabled: false,
         urls: {
             production: 'https://www.maritatrans.com/',
-            staging: 'https://dev.web.marita.asmat.app/',
-            // staging: 'https://marita-web.asmat.app/'
+            staging: 'https://dev.web.marita.asmat.app/'
         },
-        locator: Marita, 
-        data: testData.Marita, 
-        roundTrip: true, 
+        locator: Marita,
+        data: testData.Marita,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@minanga',  
+        tag: '@minanga',
         enabled: true,
         urls: {
             production: 'https://www.minangaexpress.id/',
-            staging: 'https://dev.web.minanga.asmat.app/',
-            // staging: 'https://minanga-web.asmat.app/'
+            staging: 'https://dev.web.minanga.asmat.app/'
         },
-        locator: Minanga, 
-        data: testData.Minanga, 
-        roundTrip: true, 
+        locator: Minanga,
+        data: testData.Minanga,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@mrtrans', 
+        tag: '@mrtrans',
         enabled: true,
         urls: {
             production: 'https://www.mrtrans.co.id/',
-            staging: 'https://dev.web.mrtrans.asmat.app/',
-            // staging: 'https://mrtrans-web.asmat.app/'
+            staging: 'https://dev.web.mrtrans.asmat.app/'
         },
-        locator: Mrtrans, 
-        data: testData.Mrtrans, 
-        roundTrip: false, 
+        locator: Mrtrans,
+        data: testData.Mrtrans,
+        roundTrip: false,
         connectingRes: false
     },
     {
-        tag: '@mstrans',  
+        tag: '@mstrans',
         enabled: true,
         urls: {
             production: 'https://www.mstrans.id/',
-            staging: 'https://dev.web.mstrans.asmat.app/',
-            // staging: 'https://mstrans-web.asmat.app/'
+            staging: 'https://dev.web.mstrans.asmat.app/'
         },
-        locator: Mstrans, 
-        data: testData.Mstrans, 
-        roundTrip: true, 
+        locator: Mstrans,
+        data: testData.Mstrans,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@namaste',  
+        tag: '@namaste',
         enabled: true,
         urls: {
             production: 'https://www.namasteshuttle.com/',
-            staging: 'https://dev.web.namaste.asmat.app/',
-            // staging: 'https://namaste-web.asmat.app/'
+            staging: 'https://dev.web.namaste.asmat.app/'
         },
-        locator: Namaste, 
-        data: testData.Namaste, 
-        roundTrip: true, 
+        locator: Namaste,
+        data: testData.Namaste,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@pelitamas',  
+        tag: '@pelitamas',
         enabled: true,
         urls: {
             production: 'https://www.pelitamas.id/',
-            staging: 'https://dev.web.pelitamas.asmat.app/',
-            // staging: 'https://pelitamas-web.asmat.app/'
+            staging: 'https://dev.web.pelitamas.asmat.app/'
         },
-        locator: Pelitamas, 
-        data: testData.Pelitamas, 
-        roundTrip: true, 
+        locator: Pelitamas,
+        data: testData.Pelitamas,
+        roundTrip: true,
         connectingRes: false
     },
     {
         tag: '@putraremaja',
-        enabled: true, 
+        enabled: true,
         urls: {
             production: 'https://shuttle.putraremaja.co.id/',
-            staging: 'https://dev.web.putraremaja.asmat.app/',
-            // staging: 'https://putraremaja-web.asmat.app/'
+            staging: 'https://dev.web.putraremaja.asmat.app/'
         },
-        locator: Putraremaja, 
-        data: testData.Putraremaja, 
-        roundTrip: true, 
+        locator: Putraremaja,
+        data: testData.Putraremaja,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@raputri', 
+        tag: '@raputri',
         enabled: true,
         urls: {
             production: 'https://www.raputri.com/',
-            staging: 'https://dev.web.raputri.asmat.app/',
-            // staging: 'https://raputri-web.asmat.app/'
+            staging: 'https://dev.web.raputri.asmat.app/'
         },
-        locator: Raputri, 
-        data: testData.Raputri, 
-        roundTrip: true, 
+        locator: Raputri,
+        data: testData.Raputri,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@riyan',  
+        tag: '@riyan',
         enabled: true,
         urls: {
             production: 'https://www.riyantransport.com/',
-            staging: 'https://dev.web.riyantrans.asmat.app/',
-            // staging: 'https://riyantrans-web.asmat.app/'
+            staging: 'https://dev.web.riyantrans.asmat.app/'
         },
-        locator: Riyan, 
-        data: testData.Riyan, 
-        roundTrip: true, 
+        locator: Riyan,
+        data: testData.Riyan,
+        roundTrip: true,
         connectingRes: false //Round-trip true tapi belum ditemukan rute-nya
-    }, 
+    },
     {
         tag: '@royalkencana',
-        enabled: true,  
+        enabled: true,
         urls: {
             production: 'https://www.royalkencanabus.id/',
-            staging: 'https://dev.web.royalkencana.asmat.app/',
-            // staging: 'https://royalkencana-web.asmat.app/'
+            staging: 'https://dev.web.royalkencana.asmat.app/'
         },
-        locator: Royalkencana, 
-        data: testData.Royalkencana, 
-        roundTrip: true, 
+        locator: Royalkencana,
+        data: testData.Royalkencana,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@sabila',  
+        tag: '@sabila',
         enabled: true,
         urls: {
             production: 'https://booking.sabilashuttle.co.id/',
-            staging: 'https://dev.web.sabila.asmat.app/',
-            // staging: 'https://sabila-web.asmat.app/'
+            staging: 'https://dev.web.sabila.asmat.app/'
         },
-        locator: Sabila, 
-        data: testData.Sabila, 
-        roundTrip: false, 
+        locator: Sabila,
+        data: testData.Sabila,
+        roundTrip: false,
         connectingRes: false // Round trip true tapi belum ditemukan rute tersedia
-    }, 
+    },
     {
-        tag: '@sadya', 
+        tag: '@sadya',
         enabled: true,
         urls: {
             production: 'https://booking.sadyatrans.com/',
-            staging: 'https://dev.web.sadyatrans.asmat.app/',
-            // staging: 'https://sadyatrans-web.asmat.app/'
+            staging: 'https://dev.web.sadyatrans.asmat.app/'
         },
-        locator: Sadya, 
-        data: testData.Sadya, 
-        roundTrip: true, 
+        locator: Sadya,
+        data: testData.Sadya,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@sariharum', 
+        tag: '@sariharum',
         enabled: true,
         urls: {
             production: 'https://www.sariharum.com/',
-            staging: 'https://dev.web.sariharum.asmat.app/',
-            // staging: 'https://sariharum-web.asmat.app/'
+            staging: 'https://dev.web.sariharum.asmat.app/'
         },
-        locator: Sariharum, 
-        data: testData.Sariharum, 
-        roundTrip: true, 
+        locator: Sariharum,
+        data: testData.Sariharum,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@selamat',  
+        tag: '@selamat',
         enabled: true,
         urls: {
             production: 'https://www.selamattrans.co.id/reservasi',
-            staging: 'https://dev.web.selamat.asmat.app/reservasi',
-            // staging: 'https://selamat-web.asmat.app/reservasi'
+            staging: 'https://dev.web.selamat.asmat.app/'
         },
-        locator: Selamat, 
-        data: testData.Selamat, 
-        roundTrip: false, 
+        locator: Selamat,
+        data: testData.Selamat,
+        roundTrip: false,
         connectingRes: false
     },
     {
-        tag: '@semeru',  
+        tag: '@semeru',
         enabled: true,
         urls: {
             production: 'https://www.semerutrans.com/',
-            staging: 'https://dev.web.semeru.asmat.app/',
-            // staging: 'https://semeru-web.asmat.app/'
+            staging: 'https://dev.web.semeru.asmat.app/'
         },
-        locator: Semeru, 
-        data: testData.Semeru, 
-        roundTrip: false, 
+        locator: Semeru,
+        data: testData.Semeru,
+        roundTrip: false,
         connectingRes: false
     },
     {
-        tag: '@sunjaya',  
+        tag: '@sunjaya',
         enabled: true,
         urls: {
             production: 'https://www.sunjayaabadi.com/',
-            staging: 'https://dev.web.sunjaya.asmat.app/',
-            // staging: 'https://sunjaya-web.asmat.app/'
+            staging: 'https://dev.web.sunjaya.asmat.app/'
         },
-        locator: Sunjaya, 
-        data: testData.Sunjaya, 
-        roundTrip: true, 
+        locator: Sunjaya,
+        data: testData.Sunjaya,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@transkita', 
+        tag: '@transkita',
         enabled: true,
         urls: {
             production: 'https://www.transkitashuttle.co.id/',
-            staging: 'https://dev.web.transkita.asmat.app/',
-            // staging: 'https://transkita-web.asmat.app/'
+            staging: 'https://dev.web.transkita.asmat.app/'
         },
-        locator: Transkita, 
-        data: testData.Transkita, 
-        roundTrip: true, 
+        locator: Transkita,
+        data: testData.Transkita,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@trikusuma', 
-        enabled: true, 
+        tag: '@trikusuma',
+        enabled: true,
         urls: {
             production: 'https://www.trikusuma.com/',
-            staging: 'https://dev.web.trikusuma.asmat.app/',
-            // staging: 'https://trikusuma-web.asmat.app/'
+            staging: 'https://dev.web.trikusuma.asmat.app/'
         },
-        locator: Trikusuma, 
-        data: testData.Trikusuma, 
-        roundTrip: true, 
+        locator: Trikusuma,
+        data: testData.Trikusuma,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@wbtrans',  
+        tag: '@wbtrans',
         enabled: true,
         urls: {
             production: 'https://www.wbtrans.id/',
-            staging: 'https://dev.web.wbtrans.asmat.app/',
-            // staging: 'https://wbtrans-web.asmat.app/'
+            staging: 'https://dev.web.wbtrans.asmat.app/'
         },
-        locator: Wbtrans, 
-        data: testData.Wbtrans, 
-        roundTrip: true, 
+        locator: Wbtrans,
+        data: testData.Wbtrans,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@wisatakomodo', 
-        enabled: true, 
+        tag: '@wisatakomodo',
+        enabled: true,
         urls: {
             production: 'https://www.buswisatakomodo.com/',
-            staging: 'https://dev.web.wiskom.asmat.app/',
-            // staging: 'https://wiskom-web.asmat.app/'
+            staging: 'https://dev.web.wiskom.asmat.app/'
         },
-        locator: Wisatakomodo, 
-        data: testData.Wisatakomodo, 
-        roundTrip: true, 
+        locator: Wisatakomodo,
+        data: testData.Wisatakomodo,
+        roundTrip: true,
         connectingRes: false
     },
     {
         tag: '@yantigroup',
-        enabled: true,  
+        enabled: true,
         urls: {
             production: 'https://www.yantigroup.com/',
-            staging: 'https://dev.web.yantigroup.asmat.app/',
-            // staging: 'https://yantigroup-web.asmat.app/'
+            staging: 'https://dev.web.yantigroup.asmat.app/'
         },
-        locator: Yantigroup, 
-        data: testData.Yantigroup, 
-        roundTrip: true, 
+        locator: Yantigroup,
+        data: testData.Yantigroup,
+        roundTrip: true,
         connectingRes: false
     },
     {
-        tag: '@ztrans', 
+        tag: '@ztrans',
         enabled: true,
         urls: {
             production: 'https://www.ztrans.id/',
-            staging: 'https://dev.web.ztrans.asmat.app/',
-            // staging: 'https://ztrans-web.asmat.app/'
+            staging: 'https://dev.web.ztrans.asmat.app/'
         },
-        locator: Ztrans, 
-        data: testData.Ztrans, 
-        roundTrip: true, 
+        locator: Ztrans,
+        data: testData.Ztrans,
+        roundTrip: true,
         connectingRes: false
     }
 ]
