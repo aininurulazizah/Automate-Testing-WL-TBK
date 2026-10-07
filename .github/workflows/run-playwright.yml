@@ -88,7 +88,7 @@ jobs:
           path: reports/result.json
           retention-days: 7
 
-      - name: Checkout Dashboard repository
+      - name: Checkout to Dashboard Repository (Rerun)
         if: github.event.inputs.rerun == 'true'
         uses: actions/checkout@v4
         with:
@@ -134,6 +134,7 @@ jobs:
             playwright-report
 
       - name: Add Artifact URL to Dashboard Data
+        if: github.event.inputs.rerun != 'true'
         run: |
           node <<'EOF'
           const fs = require('fs');
@@ -153,6 +154,7 @@ jobs:
           ARTIFACT_ID: ${{ steps.upload_artifacts.outputs.artifact-id }}
 
       - name: Checkout to Dashboard repository
+        if: github.event.inputs.rerun != 'true'
         uses: actions/checkout@v4
         with:
           repository: aininurulazizah/Automate-Testing-Dashboard-TBK
@@ -160,10 +162,12 @@ jobs:
           path: dashboard
 
       - name: Update Dashboard Data
+        if: github.event.inputs.rerun != 'true'
         run: |
           npm run copy-dashboard -- dashboard
 
       - name: Check if first day of month
+        if: github.event.inputs.rerun != 'true'
         id: month_check
         run: |
           TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
@@ -181,7 +185,7 @@ jobs:
           fi
 
       - name: Create Monthly Execution ZIP
-        if: steps.month_check.outputs.is_month_start == 'true'
+        if: github.event.inputs.rerun != 'true' && steps.month_check.outputs.is_month_start == 'true'
         id: monthly_zip
         run: |
           TODAY=$(TZ=Asia/Jakarta date +%Y-%m-%d)
@@ -227,7 +231,7 @@ jobs:
           echo "zip_name=$ZIP_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Upload Monthly Execution ZIP
-        if: steps.month_check.outputs.is_month_start == 'true'
+        if: github.event.inputs.rerun != 'true' && steps.month_check.outputs.is_month_start == 'true'
         id: upload_monthly_archive
         uses: actions/upload-artifact@v4
         with:
@@ -236,6 +240,7 @@ jobs:
           retention-days: 90
 
       - name: Build Telegram Report Notification
+        if: github.event.inputs.rerun != 'true'
         env: 
           IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
           MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
@@ -353,6 +358,7 @@ jobs:
           EOF
 
       - name: Build Telegram Backup Archive Notification
+        if: github.event.inputs.rerun != 'true'
         env:
           IS_MONTH_START: ${{ steps.month_check.outputs.is_month_start }}
           MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
@@ -391,20 +397,21 @@ jobs:
           EOF
 
       - name: Send Telegram Report Notification
-        if: always()
+        if: github.event.inputs.rerun != 'true'
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             --data-urlencode "text=$TELEGRAM_REPORT"
 
       - name: Send Telegram Backup Archive Notification
-        if: steps.month_check.outputs.is_month_start == 'true'
+        if: github.event.inputs.rerun != 'true' && steps.month_check.outputs.is_month_start == 'true'
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
             -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
             --data-urlencode "text=$TELEGRAM_BACKUP_REPORT"
 
       - name: Commit Dashboard Data
+        if: github.event.inputs.rerun != 'true'
         run: |
           cd dashboard
 
