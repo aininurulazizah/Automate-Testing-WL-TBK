@@ -25,6 +25,13 @@ const currentDashboardFile = path.join(
     'dashboard-data.json'
 );
 
+const publicExecutionFile = path.join(
+    'dashboard',
+    'public',
+    'executions',
+    `${executionDate}.json`
+);
+
 if (!fs.existsSync(executionFile)) {
     console.error(`Execution file tidak ditemukan: ${executionFile}`);
     process.exit(1);
@@ -225,6 +232,7 @@ executionData.summary.passed = passed;
 executionData.summary.failed = failed;
 executionData.summary.flaky = flaky;
 executionData.summary.skipped = skipped;
+executionData.generatedAt = new Date().toISOString();
 
 fs.writeFileSync(
     executionFile,
@@ -233,6 +241,16 @@ fs.writeFileSync(
 
 fs.writeFileSync(
     currentDashboardFile,
+    JSON.stringify(executionData, null, 2) + '\n'
+);
+
+fs.mkdirSync(
+    path.dirname(publicExecutionFile),
+    { recursive: true }
+);
+
+fs.writeFileSync(
+    publicExecutionFile,
     JSON.stringify(executionData, null, 2) + '\n'
 );
 
