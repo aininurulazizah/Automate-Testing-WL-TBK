@@ -113,7 +113,8 @@ jobs:
 
           git add \
             "src/data/executions/${{ github.event.inputs.execution_date }}.json" \
-            "src/data/dashboard-data.json"
+            "src/data/dashboard-data.json" \
+            "public/executions/${{ github.event.inputs.execution_date }}.json"
 
           if git diff --cached --quiet; then
             echo "Tidak ada perubahan untuk di-commit."
@@ -242,7 +243,6 @@ jobs:
       - name: Build Telegram Report Notification
         if: github.event.inputs.rerun != 'true'
         env: 
-          IS_MONTH_END: ${{ steps.month_check.outputs.is_month_end }} 
           MONTHLY_ARTIFACT_ID: ${{ steps.upload_monthly_archive.outputs.artifact-id }}
         run: |
           node <<'EOF'
@@ -418,7 +418,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add src/data/dashboard-data.json src/data/executions/
+          git add src/data/dashboard-data.json src/data/executions/ public/executions/
 
           git diff --cached --quiet || \
             git commit -m "chore: update dashboard data"
