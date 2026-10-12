@@ -120,15 +120,6 @@ export class Ats {
         return `dp-${tahun}-${bulanMap[namaBulan]}-${String(hari).padStart(2, "0")}`;
     }
 
-    // async waitForLoader(element, loader_class, to_have) {
-    //     const loader = await this.page.locator(`${element}`);
-    //     if (to_have) {
-    //         await expect(loader).toHaveClass(new RegExp(loader_class), {timeout: 120000});
-    //     } else {
-    //         await expect(loader).not.toHaveClass(new RegExp(loader_class), {timeout: 120000});
-    //     }
-    // }
-
     async closePopup(value) {
         await this.page.waitForTimeout(1000);
 
