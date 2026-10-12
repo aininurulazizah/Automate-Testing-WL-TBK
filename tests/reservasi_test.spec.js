@@ -43,7 +43,7 @@ for (const site of sites.filter(site => site.enabled)) {
 
         const pemesan = createPemesan();
 
-        if(path === "/book/pemesan") {
+        if(path === "/book/pemesan" || path === "/book/forms") {
             await web.isiDataPenumpang(jml_penumpang, pemesan, testData.Penumpang, site.data.BiayaLainnya);
             await web.cariKursi();
             await web.pilihKursi(jml_penumpang, pemesan, testData.Penumpang);
@@ -67,10 +67,10 @@ for (const site of sites.filter(site => site.enabled)) {
 
         await web.konfirmasiPembayaran();
 
-        await page.waitForURL(/selesai|tiket\/detail/);
+        await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
 
         //Expected Result
-        await expect(page).toHaveURL(/selesai|tiket\/detail/);
+        await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
         
         const bookedPageElements = await web.cekBookedPageVersion();
         
@@ -153,10 +153,10 @@ for (const site of sites.filter(site => site.enabled)) {
     
             await web.konfirmasiPembayaran();
 
-            await page.waitForURL(/selesai|tiket\/detail/);
+            await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
 
             //Expected Result
-            await expect(page).toHaveURL(/selesai|tiket\/detail/);
+            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
             
             const bookedPageElements = await web.cekBookedPageVersion();
         
@@ -246,10 +246,10 @@ for (const site of sites.filter(site => site.enabled)) {
     
             await web.konfirmasiPembayaran();
 
-            await page.waitForURL(/selesai|tiket\/detail/);
+            await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
 
             //Expected Result
-            await expect(page).toHaveURL(/selesai|tiket\/detail/);
+            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
 
             const bookedPageElements = await web.cekBookedPageVersion();
         
