@@ -41,6 +41,7 @@ export class Joglosemar {
 
         // Payment Confirmation Page
         this.check_ketentuan_btn = page.locator('label[for="tandaicheck"]');
+        this.check_insurance = page.locator('#addonInsurance');
         this.konfirmasi_pembayaran_btn = page.locator('button#submit:has-text("Konfirmasi")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('.modal-body button:has-text("Konfirmasi")');
 
@@ -351,6 +352,12 @@ export class Joglosemar {
                         expected_total_tiket -= nominal;
                     }
 
+                }
+
+                // Asuransi
+                if (await this.check_insurance.isChecked()) {
+                    await this.check_insurance.evaluate(el => el.click());
+                    await this.page.waitForTimeout(2000);
                 }
 
                 const actual_total_tiket_payment_1 = this.normalizeRupiah(await detail_card.locator('div:has-text("Total Bayar") + div > p ').innerText());
