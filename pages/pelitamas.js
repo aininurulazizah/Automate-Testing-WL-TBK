@@ -187,6 +187,9 @@ export class Pelitamas {
         const first_jadwal = await this.jadwal_card.first();
         const harga_tiket = await first_jadwal.locator('span.dsc__amount-value').innerText();
         await first_jadwal.locator('button:has-text("Pilih")').first().click();
+        
+        await this.page.waitForTimeout(2000);
+
         return harga_tiket;
     }
 
