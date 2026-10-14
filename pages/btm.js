@@ -218,13 +218,7 @@ export class Btm{
             harga_max = this.normalizeRupiah(harga_max);
 
             for (let i = 0; i < jml_penumpang; i++) {
-                let harga_kursi;
-
-                if (await this.kursi_tersedia.nth(i).locator('p').filter({ hasText : /Sale|Promo/i }).count() > 0) {
-                    harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(2).innerText());
-                } else {
-                    harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
-                }
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span[data-price-idr]').innerText());
 
                 expect(harga_kursi).toBeGreaterThanOrEqual(harga_min);
                 expect(harga_kursi).toBeLessThanOrEqual(harga_max);
@@ -235,14 +229,8 @@ export class Btm{
         if (harga_type === "fixed") {
 
             for (let i = 0; i < jml_penumpang; i++) {
-                let harga_kursi;
-
-                if (await this.kursi_tersedia.nth(i).locator('p').filter({ hasText : /Sale|Promo/i }).count() > 0) {
-                    harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(2).innerText());
-                } else {
-                    harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
-                }
-
+                
+                const harga_kursi = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span[data-price-idr]').innerText());
                 expect(harga_kursi).toBe(this.normalizeRupiah(harga_tiket));
             }
             
@@ -269,13 +257,8 @@ export class Btm{
 
                     if (await this.validasiHargaTiketKursi(harga_tiket, jml_penumpang, case_flag)) {
                         for (let i = 0; i < jml_penumpang; i++) {
-                            let current_harga_tiket;
-
-                            if (await this.kursi_tersedia.nth(i).locator('p').filter({ hasText : /Sale|Promo/i }).count() > 0) {
-                                current_harga_tiket = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(2).innerText());
-                            } else {
-                                current_harga_tiket = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span').nth(1).innerText());
-                            }
+                            
+                            const current_harga_tiket = this.normalizeRupiah(await this.kursi_tersedia.nth(i).locator('span[data-price-idr]').innerText());
 
                             expected_total_tiket += current_harga_tiket;
                             expected_temp += current_harga_tiket;
