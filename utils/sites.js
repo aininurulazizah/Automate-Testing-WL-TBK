@@ -517,7 +517,7 @@ export const sites = [
         tag: '@wbtrans',  
         enabled: true,
         urls: {
-            production: 'https://www.wbtrans.id/',
+            production: 'https://www.wb-trans.id/',
             staging: 'https://dev.web.wbtrans.asmat.app/'
         },
         locator: Wbtrans, 
