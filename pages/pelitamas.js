@@ -345,7 +345,9 @@ export class Pelitamas {
 
     async konfirmasiPembayaran() {
         await this.konfirmasi_pembayaran_btn.click();
+        await this.page.waitForTimeout(1000);
         await this.konfirmasi_pembayaran_btn_modal.click();
+        await this.page.waitForTimeout(1000);
     }
 
     async cekBookedPageVersion() {
