@@ -182,7 +182,7 @@ export class Baraya {
         await this.page.waitForTimeout(1000);
 
         if (await this.expand_jadwal_btn.count() > 0) {
-            await this.expand_jadwal_btn.click();
+            await this.expand_jadwal_btn.first().click();
         }
 
         const first_jadwal = await this.jadwal_card.first();
@@ -196,7 +196,7 @@ export class Baraya {
         await this.page.waitForTimeout(1000);
 
         if (await this.expand_jadwalplg_btn.count() > 0) {
-            await this.expand_jadwalplg_btn.click();
+            await this.expand_jadwalplg_btn.first().click();
         }
 
         const first_jadwal = await this.jadwal_plg_card.first();
