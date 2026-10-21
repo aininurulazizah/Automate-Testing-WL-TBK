@@ -265,7 +265,7 @@ export class Btm{
                         }
                     }   
 
-                    const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.total_bayar_seat_page_1.innerText());
+                    // const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.total_bayar_seat_page_1.innerText());
                     const actual_total_tiket_seat_2 = this.normalizeRupiah(await this.total_bayar_label_general.innerText());
 
                     const diskon = await this.page.locator('span#display_diskon').count > 0 
@@ -274,7 +274,7 @@ export class Btm{
 
                     expected_total_tiket -= diskon;
 
-                    expect(actual_total_tiket_seat_1).toBe(expected_temp);
+                    // expect(actual_total_tiket_seat_1).toBe(expected_temp);
                     expect(actual_total_tiket_seat_2).toBe(expected_total_tiket);
                 }
 

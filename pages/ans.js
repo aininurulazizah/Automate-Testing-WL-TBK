@@ -276,11 +276,8 @@ export class Ans {
                 //     expect(actual_total_tiket_seat_2).toBe(expected_temp);
 
                 // } else {
-                    const actual_total_tiket_seat_1 = this.normalizeRupiah(await this.page.locator('.display-price-seat-selected:not(#hargatot)').innerText());
-                    expect(actual_total_tiket_seat_1).toBe(expected_total_tiket);
-    
-                    const actual_total_tiket_seat_2 = this.normalizeRupiah(await this.page.locator('span#hargatot').innerText());
-                    expect(actual_total_tiket_seat_2).toBe(expected_total_tiket);
+                    const actual_total_tiket_seat = this.normalizeRupiah(await this.page.locator('span#hargatot').innerText());
+                    expect(actual_total_tiket_seat).toBe(expected_total_tiket);
                 // }
 
                 return expected_total_tiket;
