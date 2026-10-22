@@ -337,7 +337,9 @@ export class Ats {
 
     async pilihMetodePembayaran(metode_bayar, platform_bayar){
         await this.getMetodeBayar(metode_bayar).click();
+        await this.page.waitForTimeout(1000);
         await this.getPlatformBayar(platform_bayar).click({ force: true });
+        await this.page.waitForTimeout(1000);
     }
 
     async checklistKetentuan() {
