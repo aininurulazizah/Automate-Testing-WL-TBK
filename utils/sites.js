@@ -55,7 +55,8 @@ export const sites = [
         locator: Adibuzz, 
         data: testData.Adibuzz, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@ans',  
@@ -67,7 +68,8 @@ export const sites = [
         locator: Ans, 
         data: testData.Ans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@aoshuttle',  
@@ -79,7 +81,8 @@ export const sites = [
         locator: Aoshuttle, 
         data: testData.Aoshuttle, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@aragon',  
@@ -91,7 +94,8 @@ export const sites = [
         locator: Aragon, 
         data: testData.Aragon, 
         roundTrip: false, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@ats',  
@@ -103,7 +107,8 @@ export const sites = [
         locator: Ats, 
         data: testData.Ats, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@banyumili',  
@@ -115,7 +120,8 @@ export const sites = [
         locator: Banyumili, 
         data: testData.Banyumili, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@baraya',  
@@ -127,7 +133,8 @@ export const sites = [
         locator: Baraya, 
         data: testData.Baraya, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@besttrans',  
@@ -139,7 +146,8 @@ export const sites = [
         locator: Besttrans, 
         data: testData.Besttrans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@binasarana',
@@ -151,7 +159,8 @@ export const sites = [
         locator: Binasarana, 
         data: testData.Binasarana, 
         roundTrip: false, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {  
         tag: '@btm',  
@@ -163,7 +172,8 @@ export const sites = [
         locator: Btm, 
         data: testData.Btm, 
         roundTrip: false, 
-        connectingRes: true
+        connectingRes: true,
+        login: false,
     },
     {
         tag: '@cgtrans', 
@@ -175,7 +185,8 @@ export const sites = [
         locator: Cgtrans, 
         data: testData.Cgtrans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@ctu',  
@@ -187,7 +198,8 @@ export const sites = [
         locator: Ctu, 
         data: testData.Ctu, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@daytrans', 
@@ -199,7 +211,8 @@ export const sites = [
         locator: Daytrans, 
         data: testData.Daytrans, 
         roundTrip: false, 
-        connectingRes: true
+        connectingRes: true,
+        login: true,
     },
     {
         tag: '@gracias', 
@@ -211,7 +224,8 @@ export const sites = [
         locator: Gracias, 
         data: testData.Gracias, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@harumbsi', 
@@ -223,7 +237,8 @@ export const sites = [
         locator: Harumbsi, 
         data: testData.Harumbsi, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@jackal',  
@@ -235,7 +250,8 @@ export const sites = [
         locator: Jackal, 
         data: testData.Jackal, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@joglosemar', 
@@ -247,7 +263,8 @@ export const sites = [
         locator: Joglosemar, 
         data: testData.Joglosemar, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@kpm', 
@@ -259,7 +276,8 @@ export const sites = [
         locator: Kpm, 
         data: testData.Kpm, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@krakaline',  
@@ -271,7 +289,8 @@ export const sites = [
         locator: Krakaline, 
         data: testData.Krakaline, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@kruzz',  
@@ -283,7 +302,8 @@ export const sites = [
         locator: Kruzz, 
         data: testData.Kruzz, 
         roundTrip: true, 
-        connectingRes: true
+        connectingRes: true,
+        login: false,
     },
     {
         tag: '@kupuayu',
@@ -295,7 +315,8 @@ export const sites = [
         locator: Kupuayu, 
         data: testData.Kupuayu, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@marita',  
@@ -307,7 +328,8 @@ export const sites = [
         locator: Marita, 
         data: testData.Marita, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@minanga',  
@@ -319,7 +341,8 @@ export const sites = [
         locator: Minanga, 
         data: testData.Minanga, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@mrtrans', 
@@ -331,7 +354,8 @@ export const sites = [
         locator: Mrtrans, 
         data: testData.Mrtrans, 
         roundTrip: false, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@mstrans',  
@@ -343,7 +367,8 @@ export const sites = [
         locator: Mstrans, 
         data: testData.Mstrans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@namaste',  
@@ -355,7 +380,8 @@ export const sites = [
         locator: Namaste, 
         data: testData.Namaste, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@pelitamas',  
@@ -367,7 +393,8 @@ export const sites = [
         locator: Pelitamas, 
         data: testData.Pelitamas, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@putraremaja',
@@ -379,7 +406,8 @@ export const sites = [
         locator: Putraremaja, 
         data: testData.Putraremaja, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@raputri', 
@@ -391,7 +419,8 @@ export const sites = [
         locator: Raputri, 
         data: testData.Raputri, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@riyan',  
@@ -403,7 +432,8 @@ export const sites = [
         locator: Riyan, 
         data: testData.Riyan, 
         roundTrip: true, 
-        connectingRes: false //Round-trip true tapi belum ditemukan rute-nya
+        connectingRes: false, //Round-trip true tapi belum ditemukan rute-nya
+        login: false,
     }, 
     {
         tag: '@royalkencana',
@@ -415,7 +445,8 @@ export const sites = [
         locator: Royalkencana, 
         data: testData.Royalkencana, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@sabila',  
@@ -427,7 +458,8 @@ export const sites = [
         locator: Sabila, 
         data: testData.Sabila, 
         roundTrip: false, 
-        connectingRes: false // Round trip true tapi belum ditemukan rute tersedia
+        connectingRes: false, // Round trip true tapi belum ditemukan rute tersedia
+        login: false,
     }, 
     {
         tag: '@sadya', 
@@ -439,7 +471,8 @@ export const sites = [
         locator: Sadya, 
         data: testData.Sadya, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@sariharum', 
@@ -451,7 +484,8 @@ export const sites = [
         locator: Sariharum, 
         data: testData.Sariharum, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@selamat',  
@@ -463,7 +497,8 @@ export const sites = [
         locator: Selamat, 
         data: testData.Selamat, 
         roundTrip: false, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@semeru',  
@@ -475,7 +510,8 @@ export const sites = [
         locator: Semeru, 
         data: testData.Semeru, 
         roundTrip: false, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@sunjaya',  
@@ -487,7 +523,8 @@ export const sites = [
         locator: Sunjaya, 
         data: testData.Sunjaya, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@transkita', 
@@ -499,7 +536,8 @@ export const sites = [
         locator: Transkita, 
         data: testData.Transkita, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@trikusuma', 
@@ -511,7 +549,8 @@ export const sites = [
         locator: Trikusuma, 
         data: testData.Trikusuma, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@wbtrans',  
@@ -523,7 +562,8 @@ export const sites = [
         locator: Wbtrans, 
         data: testData.Wbtrans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@wisatakomodo', 
@@ -535,7 +575,8 @@ export const sites = [
         locator: Wisatakomodo, 
         data: testData.Wisatakomodo, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@yantigroup',
@@ -547,7 +588,8 @@ export const sites = [
         locator: Yantigroup, 
         data: testData.Yantigroup, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     },
     {
         tag: '@ztrans', 
@@ -559,6 +601,7 @@ export const sites = [
         locator: Ztrans, 
         data: testData.Ztrans, 
         roundTrip: true, 
-        connectingRes: false
+        connectingRes: false,
+        login: false,
     }
 ]

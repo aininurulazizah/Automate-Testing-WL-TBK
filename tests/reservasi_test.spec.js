@@ -3,6 +3,7 @@ import { sites } from "../utils/sites";
 import { saveToCsv } from "../utils/helper";
 import { clearBrowserState } from "../utils/helper";
 import { testData, createPemesan } from "../test-data/reservasi_data";
+import { testData as loginData} from "../test-data/login_data";
 
 const ENV = process.env.ENV || 'production';
 
@@ -20,6 +21,14 @@ for (const site of sites.filter(site => site.enabled)) {
         
         if(web.close_popup){ // Close popup jika ada
             await web.closePopup(web.close_popup);
+        }
+
+        if(site.login === true) {
+            const mitra = site.tag
+            .replace("@", "")
+            .replace(/^./, letter => letter.toUpperCase());
+
+            await web.defaultLogin(loginData[mitra]);
         }
 
         await web.isiKeberangkatan(site.data.Keberangkatan); // Isi field keberagkatan
@@ -43,7 +52,10 @@ for (const site of sites.filter(site => site.enabled)) {
 
         const pemesan = createPemesan();
 
-        if(path === "/book/pemesan" || path === "/book/forms") {
+        if( path === "/book/pemesan" || 
+            path === "/book/forms" ||
+            path === "/shuttle/order/form"
+          ) {
             await web.isiDataPenumpang(jml_penumpang, pemesan, testData.Penumpang, site.data.BiayaLainnya);
             await web.cariKursi();
             await web.pilihKursi(jml_penumpang, pemesan, testData.Penumpang);
@@ -67,10 +79,10 @@ for (const site of sites.filter(site => site.enabled)) {
 
         await web.konfirmasiPembayaran();
 
-        await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
+        await page.waitForURL(/selesai|tiket\/detail|book\/completed|payment/);
 
         //Expected Result
-        await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
+        await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed|payment/);
         
         const bookedPageElements = await web.cekBookedPageVersion();
         
@@ -153,10 +165,10 @@ for (const site of sites.filter(site => site.enabled)) {
     
             await web.konfirmasiPembayaran();
 
-            await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
+            await page.waitForURL(/selesai|tiket\/detail|book\/completed|payment/);
 
             //Expected Result
-            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
+            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed|payment/);
             
             const bookedPageElements = await web.cekBookedPageVersion();
         
@@ -246,10 +258,10 @@ for (const site of sites.filter(site => site.enabled)) {
     
             await web.konfirmasiPembayaran();
 
-            await page.waitForURL(/selesai|tiket\/detail|book\/completed/);
+            await page.waitForURL(/selesai|tiket\/detail|book\/completed|payment/);
 
             //Expected Result
-            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed/);
+            await expect(page).toHaveURL(/selesai|tiket\/detail|book\/completed|payment/);
 
             const bookedPageElements = await web.cekBookedPageVersion();
         
