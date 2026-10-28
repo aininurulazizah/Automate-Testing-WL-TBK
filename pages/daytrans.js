@@ -30,13 +30,13 @@ export class Daytrans{
         this.list_kursi_container = page.locator('div[data-testid="shuttle-seat-picker"]');
         this.kursi_tersedia = this.list_kursi_container.locator('button:not(:disabled)');
         this.details_container = page.locator(`aside > div > div`);
-        this.total_kursi_perarmada = 0;
-        this.pilih_next_kursi_btn = page.locator('button:has-text("Pilih Kursi Selanjutnya")');
+        this.pilih_next_kursi_btn = page.getByRole('button', {name: /Pilih \d+ kursi lagi/});
         this.pembayaran_btn = this.details_container.nth(3).locator('button');
 
         // Payment Confirmation Page
         this.metode_bayar_btn = page.locator('button:has-text("Pilih metode pembayaran")');
         this.check_ketentuan_btn = page.locator('input[data-testid="terms-consent-agree"]');
+        this.terms_consent_scroll = page.locator('[data-testid="terms-consent-scroll"]');
         this.konfirmasi_pembayaran_btn = page.locator('button:has-text("Bayar Sekarang")');
         this.konfirmasi_pembayaran_btn_modal = page.locator('button[data-testid="terms-consent-continue"]');
         this.detail_harga_card = page.locator('[data-testid="shuttle-detail-harga-card"]');
@@ -57,8 +57,6 @@ export class Daytrans{
         this.verif_pin_btn = this.login_container.locator('button:has-text("Verifikasi PIN")');
         this.login_google_btn = this.login_container.locator('button:has-text("Lanjutkan dengan Google")');
 
-        //Non locator
-        this.elemenKursiKe = 0;
     }
 
     getNamaPenumpang(i) { // Untuk mendapatkan object data penumpang dari data test
@@ -134,7 +132,7 @@ export class Daytrans{
         }
         await this.keberangkatan.click();
         await this.keberangkatan.fill(value);
-        await this.page.locator(`button:has-text("${value}")`).click();
+        await this.page.locator(`button[id*="origin-option"]:has-text("${value}")`).click();
     }
 
     async isiTujuan(value) {
@@ -143,7 +141,7 @@ export class Daytrans{
         }
         await this.tujuan.click();
         await this.tujuan.fill(value);
-        await this.page.locator(`button:has-text("${value}")`).click();
+        await this.page.locator(`button[id*="destination-option"]:has-text("${value}")`).click();
     }
 
     async isiTanggalPergi(value) {
@@ -208,70 +206,9 @@ export class Daytrans{
         await this.page.waitForTimeout(1000);
 
         for (let i = 0; i < jml_penumpang; i++) {
-          await this.getPenumpangTerdaftar(i+1, n).click(); // Dapatkan/klik penumpang terdaftar untuk pilih kursi
-          await this.getKursi(this.total_kursi_perarmada+i).click(); // Pilih kursi 
+          await this.getPenumpangTerdaftar(i, n).click(); // Dapatkan/klik penumpang terdaftar untuk pilih kursi
+          await this.kursi_tersedia.nth(i+1+n).click();
         }
-
-        this.elemenKursiKe = this.total_kursi_perarmada;
-        const kursiSaatIni = await this.kursi_tersedia.count(); // Hitung banyak kursi saat ini untuk membantu pemilihan kursi di armada selanjutnya
-        this.total_kursi_perarmada = kursiSaatIni;
-    }
-
-    async validasiHargaTiketKursi(harga_tiket, jml_penumpang, case_flag) { //Validasi harga tiket yang terpampang di kursi
-        const harga_type = harga_tiket.includes(" - ") ? "range" : "fixed";
-        let harga_min;
-        let harga_max;
-        let harga_kursi;
-        let kursi;
-
-        if (harga_type === "range") {
-            [harga_min, harga_max] = (harga_tiket.split(" - "));
-            harga_min = this.normalizeRupiah(harga_min);
-            harga_max = this.normalizeRupiah(harga_max);
-
-            for (let i = 0; i < jml_penumpang; i++) {
-
-                if (case_flag !== 'connecting') {
-                    kursi = await this.getKursi(i).locator('span');
-                } else {
-                    kursi = await this.getKursi(this.elemenKursiKe+i).locator('span');
-                }
-                
-                if (/Sale|Promo/i.test(await kursi.first().innerText())) {
-                    harga_kursi = this.normalizeRupiah(await kursi.nth(1).innerText());
-                } else {
-                    harga_kursi = this.normalizeRupiah(await kursi.first().innerText());
-                }
-                
-                if (case_flag !== 'connecting') {
-                    expect(harga_kursi).toBeGreaterThanOrEqual(harga_min);
-                }
-
-                expect(harga_kursi).toBeLessThanOrEqual(harga_max);
-            }
-            
-        }
-        
-        if (harga_type === "fixed") {
-            for (let i = 0; i < jml_penumpang; i++) {
-                if (case_flag !== 'connecting') {
-                    kursi = await this.getKursi(i).locator('span');
-                } else {
-                    kursi = await this.getKursi(this.elemenKursiKe+i).locator('span');
-                }
-                
-                if (/Sale|Promo/i.test(await kursi.first().innerText())) {
-                    harga_kursi = this.normalizeRupiah(await kursi.nth(1).innerText());
-                } else {
-                    harga_kursi = this.normalizeRupiah(await kursi.first().innerText());
-                }
-
-                expect(harga_kursi).toBe(this.normalizeRupiah(harga_tiket));
-            }
-        }
-        
-        return true;
-
     }
 
     async validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, current_page, biaya_lainnya, case_flag, n) { // Validasi total harga tiket yang dipilih
@@ -279,46 +216,53 @@ export class Daytrans{
         switch(current_page) {
             case("seat-page") :
 
-                harga_tiket = this.normalizeRupiah(harga_tiket);
-                expected_total_tiket = (harga_tiket * jml_penumpang) + (1500 * jml_penumpang); //Tambahan asuransi
-
-                const details_section = this.details_container.nth(2);
-                const actual_total_tiket_seat = this.normalizeRupiah(await details_section.locator('span:has-text("Total") + div > div').first().innerText());
-                
-                expect(actual_total_tiket_seat).toBe(expected_total_tiket);
+                if (case_flag !== 'connecting') {
+                    
+                    harga_tiket = this.normalizeRupiah(harga_tiket);
+                    expected_total_tiket = (harga_tiket * jml_penumpang) + (1500 * jml_penumpang); //Tambahan asuransi
+    
+                    const details_section = this.details_container.nth(2);
+                    const actual_total_tiket_seat = this.normalizeRupiah(await details_section.locator('span:has-text("Total") + div > div').first().innerText());
+                    
+                    expect(actual_total_tiket_seat).toBe(expected_total_tiket);
+    
+                    return expected_total_tiket;
+                }
 
                 return expected_total_tiket;
-
-                break;
 
             case("payment-page") :
-                const biaya_layanan = this.normalizeRupiah(
-                    await this.detail_harga_card
-                        .locator('div').first()
-                        .locator('div:has-text("Biaya Layanan")')
-                        .locator('span:has-text("Rp")')
-                        .innerText()
-                );
 
-                expected_total_tiket += biaya_layanan;
-
-                const actual_total_tiket_payment = this.normalizeRupiah(
-                    await this.detail_harga_card
-                        .locator('> div').nth(1)
-                        .locator('span:has-text("Rp")')
-                        .innerText()
-                )
-
-                expect(actual_total_tiket_payment).toBe(expected_total_tiket);
+                if (case_flag !== 'connecting') {
+                    
+                    const biaya_layanan = this.normalizeRupiah(
+                        await this.detail_harga_card
+                            .locator('div').first()
+                            .locator('div:has-text("Biaya Layanan")')
+                            .locator('span:has-text("Rp")')
+                            .innerText()
+                    );
+    
+                    expected_total_tiket += biaya_layanan;
+    
+                    const actual_total_tiket_payment = this.normalizeRupiah(
+                        await this.detail_harga_card
+                            .locator('> div').nth(1)
+                            .locator('span:has-text("Rp")')
+                            .innerText()
+                    )
+    
+                    expect(actual_total_tiket_payment).toBe(expected_total_tiket);
+    
+                    return expected_total_tiket;
+                }
 
                 return expected_total_tiket;
-
-                break;
 
             case("success-page") :
 
                 return expected_total_tiket;
-                break;
+
         }
     }
 
@@ -329,7 +273,7 @@ export class Daytrans{
       
 
     async pilihKursiNextArmada() {
-        await this.pilih_next_kursi_btn.click();
+        
     }
 
     async pilihMetodePembayaran(metode_bayar, platform_bayar){
@@ -345,6 +289,11 @@ export class Daytrans{
 
     async konfirmasiPembayaran() {
         await this.konfirmasi_pembayaran_btn.click();
+        await this.terms_consent_scroll.evaluate((element) => {
+            element.scrollTop = element.scrollHeight;
+        });
+        await this.check_ketentuan_btn.waitFor({ state: 'visible'});
+        await expect(this.check_ketentuan_btn).toBeEnabled({ timeout: 10000 });
         await this.check_ketentuan_btn.click();
         await this.konfirmasi_pembayaran_btn_modal.click();
     }

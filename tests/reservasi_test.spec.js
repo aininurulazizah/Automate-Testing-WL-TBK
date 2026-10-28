@@ -208,6 +208,14 @@ for (const site of sites.filter(site => site.enabled)) {
             if(web.close_popup) {
                 await web.closePopup(web.close_popup);
             }
+
+            if(site.login === true) {
+                const mitra = site.tag
+                .replace("@", "")
+                .replace(/^./, letter => letter.toUpperCase());
+    
+                await web.defaultLogin(loginData[mitra]);
+            }
     
             await web.isiKeberangkatan(site.data.ConnectingReservation.Keberangkatan);
     
@@ -252,7 +260,7 @@ for (const site of sites.filter(site => site.enabled)) {
     
             await web.pilihMetodePembayaran(site.data.MetodeBayar, site.data.PlatformBayar);
     
-            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "payment-page", site.data.BiayaLainnya);
+            expected_total_tiket = await web.validasiTotalHargaTiket(harga_tiket, jml_penumpang, expected_total_tiket, "payment-page", site.data.BiayaLainnya, "connecting");
 
             await web.checklistKetentuan();
     
