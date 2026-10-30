@@ -440,7 +440,7 @@ export const testData = {
         }),
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
-            kurang_hari: 0,
+            kurang_hari: 1,
             customMonthToIndo: false
         }),
         JumlahPenumpang: DEFAULT_PASSENGER,
