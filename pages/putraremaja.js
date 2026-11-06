@@ -118,11 +118,13 @@ export class Putraremaja {
 
     async isiKeberangkatan(value) {
         await this.keberangkatan_field.click();
+        await this.keberangkatan_field.fill(value);
         await this.dropdown_keberangkatan.locator(`span:text-is("${value}")`).click();
     }
 
     async isiTujuan(value) {
         await this.tujuan_field.click();
+        await this.tujuan_field.fill(value);
         await this.dropdown_tujuan.locator(`span:text-is("${value}")`).click();
     }
 

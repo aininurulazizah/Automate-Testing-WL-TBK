@@ -17,8 +17,8 @@ export class Ztrans {
         this.tanggal_pulang = page.locator('input#tanggal_pulang');
         this.next_month_btn = page.locator('.flatpickr-next-month');
         this.next_month_btn2 = page.locator('.flatpickr-next-month').nth(1);
-        this.jumlah_penumpang = page.locator('select#jmlpenumpang + div');
-        this.dropdown_jml_penumpang = this.jumlah_penumpang.locator('div.ss-list');
+        this.jumlah_penumpang = page.locator('span.zt-stepper__value');
+        this.jml_penumpang_plus = page.locator('button[aria-label="Tambah penumpang"]');
         this.cari_btn = page.locator('button[onclick="return cek()"]'); 
         this.jadwal_card = page.locator('div#users li');
         this.jadwal_plg_card = page.locator('div#users').nth(1).locator('li');
@@ -158,9 +158,12 @@ export class Ztrans {
     }
 
     async isiJumlahPenumpang(value) {
-        await this.jumlah_penumpang.click();
-        await this.dropdown_jml_penumpang.locator(`div:text-is("${value} Orang")`).click();
-        await this.keberangkatan_field.click(); // Untuk menghilangkan dropdown
+        let current_jml = this.normalizeRupiah(await this.jumlah_penumpang.locator('span.zt-stepper__count').innerText());
+
+        while(current_jml !== value) {
+            await this.jml_penumpang_plus.click();
+            current_jml = this.normalizeRupiah(await this.jumlah_penumpang.locator('span.zt-stepper__count').innerText());
+        }
     }
 
     async cariTiket() {

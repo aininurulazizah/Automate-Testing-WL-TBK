@@ -1,7 +1,8 @@
 export const testData = {
     Daytrans: {
         NoTelepon: "085156173645",
-        Email: "aini.tbk1@gmail.com"
+        Email: "qa.aini.123@gmail.com",
+        Pin: "970297",
     },
     Baraya: {
         NoTelepon: "089527720922", //089527720922

@@ -5,7 +5,7 @@ export class Ats {
 
         // General
         this.page = page;
-        this.close_popup = page.locator('.close-pop-info');
+        this.close_popup = page.locator('.dpopup__close');
         
         // Reservation Form
         this.keberangkatan_field = page.locator('button#v-0-1-0-origin');
@@ -16,7 +16,6 @@ export class Ats {
         this.pp_checkbox =  page.locator('label.nyfr__trip-option > span:text-is("Pulang Pergi")');
         this.tanggal_pulang = page.locator('button#v-0-1-0-return');
         this.next_month_btn = page.locator('button[aria-label="Bulan berikutnya"]');
-        this.next_month_btn2 = page.locator('button[aria-label="Bulan berikutnya"]').nth(1);
         this.jumlah_penumpang = page.locator('div.nyfr__passengers');
         this.jml_penumpang_plus = this.jumlah_penumpang.locator('button[aria-label="Tambah penumpang"]');
         this.jml_penumpang_min = this.jumlah_penumpang.locator('button[aria-label="Kurangi penumpang"]');
@@ -165,7 +164,7 @@ export class Ats {
         await this.page.waitForTimeout(1000);
 
         while(!(await tanggal_target.isVisible())){
-            await this.next_month_btn2.click();
+            await this.next_month_btn.click();
         }
         await tanggal_target.click();
     }
