@@ -5,6 +5,7 @@ export class Jackal{
 
         // General
         this.page = page;
+        this.close_popup = page.locator('.fa.fa-times-circle.text-danger.fs-18.close-pop-info');
         this.toggle_bahasa = page.locator('button#dropdown-toggle-mobile-5 > div');
         this.list_bahasa = page.locator('button#dropdown-toggle-mobile-5 + div')
         this.keberangkatan = page.locator('#keberangkatan + div');
@@ -87,9 +88,11 @@ export class Jackal{
     async closePopup(value) {
         await this.page.waitForTimeout(1000);
 
-        while (await value.isVisible()) {
-            await value.click(); 
-            await this.page.waitForTimeout(1000);
+        for (let i = 0; i < await value.count(); i++) {
+            while (await value.nth(i).isVisible()) {
+                await value.nth(i).click(); 
+                await this.page.waitForTimeout(1000);
+            }
         }
     }
 
