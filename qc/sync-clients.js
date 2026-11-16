@@ -31,7 +31,6 @@ const DISPLAY_NAME_OVERRIDES = {
   "@ats": "ATS",
   "@besttrans": "Best Trans",
   "@btm": "BTM",
-  "@cgtrans": "CG Trans",
   "@ctu": "CTU",
   "@harumbsi": "Harum BSI",
   "@kpm": "KPM",

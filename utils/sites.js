@@ -16,12 +16,10 @@ import { Mrtrans } from "../pages/mrtrans";
 import { Sunjaya } from "../pages/sunjaya";
 import { Binasarana } from "../pages/binasarana";
 import { Transkita } from "../pages/transkita";
-import { Cgtrans } from "../pages/cgtrans";
 import { Ztrans } from "../pages/ztrans";
 import { Putraremaja } from "../pages/putraremaja";
 import { Banyumili } from "../pages/banyumili";
 import { Ctu } from "../pages/ctu";
-import { Krakaline } from "../pages/krakaline";
 import { Pelitamas } from "../pages/pelitamas";
 import { Aoshuttle } from "../pages/aoshuttle";
 import { Adibuzz } from "../pages/adibuzz";
@@ -176,19 +174,6 @@ export const sites = [
                 login: false,
         },
         {
-                tag: '@cgtrans',
-                enabled: true,
-                urls: {
-                        production: 'https://www.cgtrans.co.id/',
-                        staging: 'https://dev.web.cgtrans.asmat.app/'
-                },
-                locator: Cgtrans,
-                data: testData.Cgtrans,
-                roundTrip: true,
-                connectingRes: false,
-                login: false,
-        },
-        {
                 tag: '@ctu',
                 enabled: true,
                 urls: {
@@ -275,19 +260,6 @@ export const sites = [
                 },
                 locator: Kpm,
                 data: testData.Kpm,
-                roundTrip: true,
-                connectingRes: false,
-                login: false,
-        },
-        {
-                tag: '@krakaline',
-                enabled: true,
-                urls: {
-                        production: 'https://www.krakaline.com/',
-                        staging: 'https://dev.web.krakaline.asmat.app/'
-                },
-                locator: Krakaline,
-                data: testData.Krakaline,
                 roundTrip: true,
                 connectingRes: false,
                 login: false,

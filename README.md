@@ -107,8 +107,6 @@ Proyek automasi testing untuk proses pemesanan reservasi tiket bus/shuttle pada 
 | Binasarana | One Way Trip | @binasarana - Test Case 1 - One Way Trip |
 | Transkita | One Way Trip | @transkita - Test Case 1 - One Way Trip |
 | Transkita | Round Trip | @transkita - Test Case 2 - Round Trip |
-| Cgtrans | One Way Trip | @cgtrans - Test Case 1 - One Way Trip |
-| Cgtrans | Round Trip | @cgtrans - Test Case 2 - Round Trip |
 | Ztrans | One Way Trip | @ztrans - Test Case 1 - One Way Trip |
 | Ztrans | Round Trip | @ztrans - Test Case 2 - Round Trip |
 | Putraremaja | One Way Trip | @putraremaja - Test Case 1 - One Way Trip |
@@ -117,8 +115,6 @@ Proyek automasi testing untuk proses pemesanan reservasi tiket bus/shuttle pada 
 | Banyumili | Round Trip | @banyumili - Test Case 2 - Round Trip |
 | Ctu | One Way Trip | @ctu - Test Case 1 - One Way Trip |
 | Ctu | Round Trip | @ctu - Test Case 2 - Round Trip |
-| Krakaline | One Way Trip | @krakaline - Test Case 1 - One Way Trip |
-| Krakaline | Round Trip | @krakaline - Test Case 2 - Round Trip |
 | Pelitamas | One Way Trip | @pelitamas - Test Case 1 - One Way Trip |
 | Pelitamas | Round Trip | @pelitamas - Test Case 2 - Round Trip |
 | Aoshuttle | One Way Trip | @aoshuttle - Test Case 1 - One Way Trip |

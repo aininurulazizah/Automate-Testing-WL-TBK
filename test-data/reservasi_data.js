@@ -412,24 +412,6 @@ export const testData = {
         PlatformBayar: "QRIS"
     },
 
-    Cgtrans: {
-        Keberangkatan: "CILACAP",
-        Tujuan: "SEMARANG",
-        TanggalPergi: getTanggalCustom({
-            selang_bulan: 1,
-            kurang_hari: 7,
-            customMonthToIndo: true
-        }),
-        TanggalPulang: getTanggalCustom({
-            selang_bulan: 1,
-            kurang_hari: 1,
-            customMonthToIndo: true
-        }),
-        JumlahPenumpang: DEFAULT_PASSENGER,
-        MetodeBayar: "Pembayaran Instan",
-        PlatformBayar: "QRIS"
-    },
-
     Ztrans: {
         Keberangkatan: "Tamansari",
         Tujuan: "Alfamart perumnas",
@@ -492,25 +474,6 @@ export const testData = {
             kurang_hari: 7,
             customMonthToIndo: true
         }),
-        TanggalPulang: getTanggalCustom({
-            selang_bulan: 1,
-            kurang_hari: 1,
-            customMonthToIndo: true
-        }),
-        JumlahPenumpang: DEFAULT_PASSENGER,
-        MetodeBayar: "Pembayaran Instan",
-        PlatformBayar: "QRIS"
-    },
-
-    Krakaline: {
-        Keberangkatan: "BAROS",
-        Tujuan: "AREA FATMAWATI",
-        TanggalPergi: getTanggalCustom({
-            selang_bulan: 1,
-            kurang_hari: 7,
-            customMonthToIndo: true
-        }),
-        // TanggalPergi: "Oktober 15, 2026",
         TanggalPulang: getTanggalCustom({
             selang_bulan: 1,
             kurang_hari: 1,
